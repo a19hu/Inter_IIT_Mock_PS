@@ -22,6 +22,10 @@ const projectSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     freelancers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
