@@ -1,36 +1,39 @@
 import mongoose from 'mongoose';
 
 const projectSchema = new mongoose.Schema({
-    title: {
+    issueId: {
         type: String,
-        required: true,
+        unique: true,
+        required: true
+    },
+    name: {
+        type: String,
+        required: true
     },
     description: {
         type: String,
-        required: true,
-    },
-    createdBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // Reference to the creator of the project
-        required: true,
-    },
-    collaborators: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // Array of collaborators
-    repositoryUrl: {
-        type: String,
-        required: true, // URL to the GitHub repository
-    },
-    paymentAmount: {
-        type: Number,
         required: true
     },
-    createdAt: {
+    deadline: {
         type: Date,
-        default: Date.now,
+        required: true
     },
-    updatedAt: {
+    applicationDate: {
         type: Date,
-        default: Date.now,
+        required: true
     },
+    freelancers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    prIds: [{
+        type: String
+    }],
+    status: {
+        type: String,
+        enum: ['resolved', 'unresolved'],
+        default: 'unresolved'
+    }
 }, { timestamps: true });
 
 projectSchema.pre('save', function (next) {
