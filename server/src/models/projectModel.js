@@ -14,7 +14,7 @@ const projectSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    deadline: {
+    deadline: { // problem
         type: Date,
         required: true
     },
