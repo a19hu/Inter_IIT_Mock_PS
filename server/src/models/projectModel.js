@@ -35,8 +35,8 @@ const projectSchema = new mongoose.Schema({
     }],
     status: {
         type: String,
-        enum: ['resolved', 'unresolved'],
-        default: 'unresolved'
+        enum: ['resolved', 'unresolved', 'not_started'],
+        default: 'started'
     }
 }, { timestamps: true });
 
