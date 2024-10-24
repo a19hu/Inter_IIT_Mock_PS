@@ -116,33 +116,46 @@ Client (Frontend) -> REST API (Backend) -> MongoDB (Database)
 2. **Project Model**:
    ```js
    const ProjectSchema = new mongoose.Schema({
-     title: String,
-     description: String,
-     repoUrl: String,
-     employerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-     status: { type: String, enum: ['open', 'closed'] },
+     issueId: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    deadline: {
+        type: Date,
+        required: true
+    },
+    applicationDate: {
+        type: Date,
+        required: true
+    },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    freelancers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    prIds: [{
+        type: String
+    }],
+    status: {
+        type: String,
+        enum: ['resolved', 'unresolved'],
+        default: 'unresolved'
+    }
    });
    ```
 
-3. **Contribution Model**:
-   ```js
-   const ContributionSchema = new mongoose.Schema({
-     projectId: { type: mongoose.Schema.Types.ObjectId, ref: 'Project' },
-     freelancerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-     prUrl: String,
-     status: { type: String, enum: ['pending', 'approved', 'merged', 'paid'] },
-     smartContractAddress: String,
-   });
-   ```
-
-4. **Transaction Model**:
-   ```js
-   const TransactionSchema = new mongoose.Schema({
-     contributionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Contribution' },
-     txHash: String,
-     status: { type: String, enum: ['initiated', 'completed'] },
-   });
-   ```
 
 ---
 
@@ -154,18 +167,12 @@ Client (Frontend) -> REST API (Backend) -> MongoDB (Database)
   
 2. **Projects**:
    - `GET /projects`: Get all open projects.
-   - `POST /projects`: Create a new project (Employer only).
-   - `GET /projects/:id`: Get project details.
-  
-3. **Contributions**:
-   - `POST /projects/:id/contribute`: Request to contribute to a project (Freelancer only).
-   - `POST /contributions/:id/submit-pr`: Submit a PR URL for an approved contribution.
-   - `GET /contributions/:id/status`: Get the status of the contribution.
-
-4. **Smart Contract Interaction**:
-   - `POST /contributions/:id/approve`: Approve a freelancer’s contribution and deploy a smart contract.
-   - `GET /transactions/:id/status`: Check smart contract execution status.
-
+   - `POST /projects`: Create a new project.
+   - `GET /projects/:projectid`: Get project details.
+   - `POST /projects/:projectid/apply`: Apply to contribute on project (before application deadline).
+   - `GET /projects/:projectid/remove/:freelancerid`: Disapprove freelancer application (only Project Owner).
+   - `POST /projects/:projectid/submitPR`: Submit contribution (github pull-request ID) (project freelancers only).
+   - `GET /projects/:projectid/status`: Get Project Status
 ---
 
 ### Day-by-Day Plan: (This Plan is purely tentative but have to stick to the deadline which is 31st Oct)

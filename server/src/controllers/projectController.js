@@ -1,90 +1,181 @@
-// Manages actions related to creating and managing projects.
-
-import Project from '../models/projectModel.js'; // Adjust the path based on your structure
-import User from '../models/userModel.js'; // Adjust the path based on your structure
-import Contribution from '../models/contributionModel.js'
+import Project from '../models/projectModel.js';
+import User from '../models/userModel.js';
 
 // Get all projects
 export const getAllProjects = async (req, res) => {
     try {
-        const projects = await Project.find().populate('createdBy collaborators');
-        res.status(200).json(projects); // Return the list of projects
+        const projects = await Project.find();
+        res.status(200).json(projects);
     } catch (error) {
-        console.error('Error fetching projects:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: 'Error fetching projects.' });
     }
 };
 
-// Get a project by ID
+// Get project by ID
 export const getProjectById = async (req, res) => {
-    const { projectId } = req.params; // Extract project ID from the request parameters
+    const { projectid } = req.params;
 
     try {
-        const project = await Project.findById(projectId).populate('createdBy collaborators');
+        const project = await Project.findById(projectid).populate('freelancers');
+        if (!project) return res.status(404).json({ message: 'Project not found.' });
 
-        if (!project) {
-            return res.status(404).json({ message: 'Project not found' });
-        }
-
-        res.status(200).json(project); // Return the project details
+        res.status(200).json(project);
     } catch (error) {
-        console.error('Error fetching project:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: 'Error fetching project details.' });
     }
 };
 
-// Create a new project
+// Create new project
 export const createNewProject = async (req, res) => {
-    const { title, description, repositoryUrl, paymentAmount } = req.body; // Extract data from the request body
-    const userId = req.session.userId; // Get the user ID from the session
+    const { issueId, name, description, deadline, applicationDate } = req.body;
+    const owner = req.user._id;  // Assuming req.user is the logged-in user [check]
 
     try {
         const newProject = new Project({
-            title,
+            issueId,
+            name,
             description,
-            createdBy: userId, // Set the creator of the project
-            collaborators: [], // Initialize collaborators as an empty array
-            repositoryUrl,
-            paymentAmount,
+            deadline,
+            applicationDate,
+            owner,  // Store the owner as the current logged-in user
+            freelancers: [],
+            prIds: [],
+            status: 'not_started',
         });
 
-        await newProject.save(); // Save the new project to the database
-        res.status(201).json(newProject); // Return the created project
+        await newProject.save();
+        res.status(201).json({ message: 'Project created successfully.', project: newProject });
     } catch (error) {
-        console.error('Error creating project:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: 'Error creating project.' });
     }
 };
 
-// Function to handle contribution request
-export const contribute = async (req, res) => {
-    const { projectId } = req.params;
-    const freelancerId = req.session.userId; // Assuming the user is authenticated
+// Apply to a project (add freelancer)
+export const apply = async (req, res) => {
+    const { projectid } = req.params;
+    const { freelancerId } = req.body;
 
     try {
-        // Check if project exists
-        const project = await Project.findById(projectId);
-        if (!project) {
-            return res.status(404).json({ message: 'Project not found' });
+        const project = await Project.findById(projectid);
+        if (!project) return res.status(404).json({ message: 'Project not found.' });
+
+        const freelancer = await User.findById(freelancerId);
+        if (!freelancer) return res.status(404).json({ message: 'Freelancer not found.' });
+
+        // Check if the current date is before or on the application deadline
+        const currentDate = new Date();
+        if (currentDate > project.applicationDate) {
+            return res.status(400).json({ message: 'Application deadline has passed.' });
         }
 
-        // Create a new contribution record
-        const contribution = new Contribution({
-            projectId: projectId,
-            freelancerId: freelancerId,
-            status: 'pending',
-        });
+        // Check if freelancer has already applied
+        if (project.freelancers.includes(freelancerId)) {
+            return res.status(400).json({ message: 'Freelancer has already applied.' });
+        }
 
-        await contribution.save();
+        project.freelancers.push(freelancerId);
+        await project.save();
 
-        // Notify employer (could be an email or in-app notification)
-        // We'll assume the project owner is the employer
-        const employer = await User.findById(project.createdBy);
-        // Add notification logic here
-
-        res.status(200).json({ message: 'Contribution request sent to employer' });
+        res.status(200).json({ message: 'Freelancer added to the project.', project });
     } catch (error) {
-        console.error('Error contributing to project:', error);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ message: 'Error applying to project.' });
     }
 };
+
+// Remove application (remove freelancer) - only the owner can remove
+export const removeApplication = async (req, res) => {
+    const { projectid, freelancerid } = req.params;
+    const ownerId = req.user._id; // check 
+
+    try {
+        const project = await Project.findById(projectid);
+        if (!project) return res.status(404).json({ message: 'Project not found.' });
+
+        // Ensure only the owner can remove freelancers
+        if (String(project.owner) !== String(ownerId)) {
+            return res.status(403).json({ message: 'Only the project owner can remove freelancers.' });
+        }
+
+        const freelancerIndex = project.freelancers.indexOf(freelancerid);
+        if (freelancerIndex === -1) {
+            return res.status(400).json({ message: 'Freelancer not found in project.' });
+        }
+
+        project.freelancers.splice(freelancerIndex, 1);
+        await project.save();
+
+        res.status(200).json({ message: 'Freelancer removed from the project.' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error removing freelancer from project.' });
+    }
+};
+
+// Submit PR for the project - only the assigned freelancer can submit a PR
+export const submitPR = async (req, res) => {
+    const { projectid } = req.params;
+    const { prId } = req.body;
+    const freelancerId = req.user._id;  // Assuming the freelancer is the logged-in user
+
+    try {
+        const project = await Project.findById(projectid);
+        if (!project) return res.status(404).json({ message: 'Project not found.' });
+
+        // Ensure the freelancer is part of the project
+        if (!project.freelancers.includes(freelancerId)) {
+            return res.status(403).json({ message: 'Only assigned freelancers can submit PRs.' });
+        }
+
+        // Add the PR ID to the project
+        project.prIds.push(prId);
+        await project.save();
+
+        res.status(200).json({ message: 'PR submitted successfully.', project });
+    } catch (error) {
+        res.status(500).json({ message: 'Error submitting PR.' });
+    }
+};
+
+// Check project status (resolved/unresolved)
+export const getStatus = async (req, res) => {
+    const { projectid } = req.params;
+
+    try {
+        const project = await Project.findById(projectid);
+        if (!project) return res.status(404).json({ message: 'Project not found.' });
+
+        res.status(200).json({ status: project.status });
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching project status.' });
+    }
+};
+
+export const startProject = async (req, res) => {
+    const { projectid } = req.params;
+    const ownerId = req.user._id;  // Assuming req.user is the logged-in user (project owner)
+
+    try {
+        const project = await Project.findById(projectid);
+        if (!project) return res.status(404).json({ message: 'Project not found.' });
+
+        // Ensure only the owner can start the project
+        if (String(project.owner) !== String(ownerId)) {
+            return res.status(403).json({ message: 'Only the project owner can start the project.' });
+        }
+
+        // Check if the current date is after the application deadline
+        const currentDate = new Date();
+        if (currentDate <= project.applicationDate) {
+            return res.status(400).json({ message: 'Cannot start the project before the application deadline.' });
+        }
+
+        // Update project status to "started"
+        project.status = 'unresolved';
+        await project.save();
+
+        // deploySmartContract();
+
+        res.status(200).json({ message: 'Project started successfully.', project });
+    } catch (error) {
+        res.status(500).json({ message: 'Error starting the project.' });
+    }
+}
