@@ -13,7 +13,7 @@ router.post(`/`, createNewProject);
 router.get(`/:projectid/apply`, apply);
 router.get(`/:projectid/remove/:freelancerid`, removeApplication);
 router.post(`/:projectid/submitPR`, submitPR);
-router.get(`/:projectid/status`, getStatus);
+router.get(`/:projectid/status`, getStatus);  // route for webhook stuff
 
 router.get(`/:projectid/start`, startProject) // only owner. deploy sc
 

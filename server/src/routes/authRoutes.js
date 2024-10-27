@@ -36,3 +36,8 @@ router.get('/safe', async (req, res) => {
 router.post('/add-wallet', addWallet);
 
 export default router;
+
+/**
+ * axios.get('/backend/auth/logout')
+ * 
+ */

@@ -30,7 +30,14 @@ const projectSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }],
-    prIds: [{
+    smartContractAddress: {
+        type: String
+    },
+    amountInWei: {
+        type: Number,
+        required: true
+    },
+    prURLs: [{
         type: String
     }],
     status: {

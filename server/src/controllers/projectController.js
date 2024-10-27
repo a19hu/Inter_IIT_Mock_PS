@@ -1,5 +1,7 @@
 import Project from '../models/projectModel.js';
 import User from '../models/userModel.js';
+import { deploySmartContract, triggerSmartContract } from '../utils/web3Utils.js';
+import { isPRaccepted, findSubmitter } from '../utils/githubUtils.js';
 
 // Get all projects
 export const getAllProjects = async (req, res) => {
@@ -27,7 +29,7 @@ export const getProjectById = async (req, res) => {
 
 // Create new project
 export const createNewProject = async (req, res) => {
-    const { issueId, name, description, deadline, applicationDate } = req.body;
+    const { issueId, name, description, deadline, applicationDate, amount } = req.body;
     const owner = req.user._id;  // Assuming req.user is the logged-in user [check]
 
     try {
@@ -39,7 +41,8 @@ export const createNewProject = async (req, res) => {
             applicationDate,
             owner,  // Store the owner as the current logged-in user
             freelancers: [],
-            prIds: [],
+            prURLs: [],
+            amountInWei: amount,
             status: 'not_started',
         });
 
@@ -53,7 +56,7 @@ export const createNewProject = async (req, res) => {
 // Apply to a project (add freelancer)
 export const apply = async (req, res) => {
     const { projectid } = req.params;
-    const { freelancerId } = req.body;
+    const { freelancerId } = req.user._id;
 
     try {
         const project = await Project.findById(projectid);
@@ -113,7 +116,7 @@ export const removeApplication = async (req, res) => {
 // Submit PR for the project - only the assigned freelancer can submit a PR
 export const submitPR = async (req, res) => {
     const { projectid } = req.params;
-    const { prId } = req.body;
+    const { prURL } = req.body;
     const freelancerId = req.user._id;  // Assuming the freelancer is the logged-in user
 
     try {
@@ -126,26 +129,12 @@ export const submitPR = async (req, res) => {
         }
 
         // Add the PR ID to the project
-        project.prIds.push(prId);
+        project.prURLs.push(prURL);
         await project.save();
 
         res.status(200).json({ message: 'PR submitted successfully.', project });
     } catch (error) {
         res.status(500).json({ message: 'Error submitting PR.' });
-    }
-};
-
-// Check project status (resolved/unresolved)
-export const getStatus = async (req, res) => {
-    const { projectid } = req.params;
-
-    try {
-        const project = await Project.findById(projectid);
-        if (!project) return res.status(404).json({ message: 'Project not found.' });
-
-        res.status(200).json({ status: project.status });
-    } catch (error) {
-        res.status(500).json({ message: 'Error fetching project status.' });
     }
 };
 
@@ -170,12 +159,58 @@ export const startProject = async (req, res) => {
 
         // Update project status to "started"
         project.status = 'unresolved';
-        await project.save();
 
-        // deploySmartContract();
+        const smartContractAddress = deploySmartContract(projectid); // id of smart contract 
+        project.smartContractAddress = smartContractAddress;
+        await project.save();
 
         res.status(200).json({ message: 'Project started successfully.', project });
     } catch (error) {
         res.status(500).json({ message: 'Error starting the project.' });
     }
 }
+
+// Check project status (resolved/unresolved)
+export const getStatus = async (req, res) => {
+    const { projectid } = req.params;
+
+    try {
+        const project = await Project.findById(projectid);
+        if (!project) return res.status(404).json({ message: 'Project not found.' });
+        if (project.status == "resolved") {
+            triggerSmartContractHelper(projectid);
+        }
+        res.status(200).json({ status: project.status });
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching project status.' });
+    }
+};
+
+const triggerSmartContractHelper = async (projectid) => {
+    try {
+        const project = await Project.findById(projectid);
+        if (!project) {
+            console.error(`Project with id ${projectid} not found.`);
+            return;
+        }
+        const freelancer = null;
+
+        // Check for the accepted PR 
+        for (const pr in project.prURLs) {
+            if (await isPRaccepted(pr)) {
+                freelancer = findSubmitter(pr);
+            }
+        }
+
+        if (!freelancer) {
+            console.error('Submitter address not found.');
+            return;
+        }
+
+        // Call triggerSmartContract with the project id and submitter's address
+        await triggerSmartContract(projectid, freelancer);
+        console.log(`TriggerSmartContract called for project ${projectid} and payee ${freelancer}`);
+    } catch (error) {
+        console.error('Error triggering smart contract helper:', error);
+    }
+};
