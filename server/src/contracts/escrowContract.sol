@@ -3,34 +3,41 @@ pragma solidity ^0.8.0;
 
 contract Escrow {
     address public employer;
-    address public freelancer;
-    uint256 public amount;
-    bool public isApproved = false;
+    address public thirdParty;
+    uint256 public deadline;
+    bool public isFundPresent;
+    uint256 public amt;
 
-    constructor(address _freelancer) payable {
-        employer = msg.sender; // The one deploying the contract is the employer
-        freelancer = _freelancer;
-        amount = msg.value; // Amount deposited during contract creation
+    constructor(address _thirdParty, uint256 _deadlineInSecs) payable {
+        require(msg.value > 0, "Amount must be greater than zero");
+        
+        employer = msg.sender;
+        thirdParty = _thirdParty;
+        deadline = block.timestamp + _deadlineInSecs;
+        amt = msg.value;
+        isFundPresent = true;
     }
 
-    // Function to approve the contribution
-    function approve() public {
-        require(msg.sender == employer, "Only employer can approve");
-        isApproved = true;
+    modifier onlyThirdParty() {
+        require(msg.sender == thirdParty, "Only third party can call this function");
+        _;
     }
 
-    // Function to release funds
-    function releaseFunds() public {
-        require(isApproved, "Funds not approved for release");
-        require(address(this).balance > 0, "No funds to release");
-
-        // Transfer funds to freelancer
-        payable(freelancer).transfer(address(this).balance);
-        isApproved = false; // Reset approval status for security
+    function releaseFunds(address payable _payee) external onlyThirdParty {
+        require(isFundPresent, "No funds to release");
+        require(block.timestamp <= deadline, "Deadline has passed");
+        
+        isFundPresent = false;
+        _payee.transfer(amt);
+        // selfdestruct(payable(thirdParty));
     }
 
-    // Function to get the contract balance
-    function getBalance() public view returns (uint256) {
-        return address(this).balance;
+    function refundFunds() external onlyThirdParty {
+        require(isFundPresent, "No funds to refund");
+        require(block.timestamp > deadline, "Deadline has not passed yet");
+        
+        isFundPresent = false;
+        payable(employer).transfer(amt);
+        // selfdestruct(payable(thirdParty));
     }
 }
