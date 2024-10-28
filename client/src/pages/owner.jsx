@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Header, Content, Button, Navbar, Nav, Panel, Stack, Footer } from 'rsuite';
 import { FaUser, FaEnvelope } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
-import CNavbar from '../components/navbar';
+import OwnerNavbar from '../components/owner_nav';
 import Newjob from '../components/newjob';
 
 const Owner = () => {
@@ -23,7 +23,7 @@ const Owner = () => {
 
     return (
         <div>
-             <CNavbar appearance="inverse" activeKey={activeKey} onSelect={setActiveKey}/>
+             <OwnerNavbar appearance="inverse" activeKey={activeKey} onSelect={setActiveKey}/>
       <div style={containerStyle}>
         <div style={{...sideStyle, width: '50%'}}>
           <Newjob />

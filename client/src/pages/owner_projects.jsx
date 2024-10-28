@@ -1,12 +1,9 @@
 import React from 'react';
-import { Container, Header, Content, Button, Navbar, Nav, Panel, Stack, Footer } from 'rsuite';
-import { FaUser, FaEnvelope } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import CNavbar from '../components/navbar';
-import Newjob from '../components/newjob';
 import ExistingJobs from '../components/existingjob';
-import Freelancer from './freelancer';
 import OwnerNavbar from '../components/owner_nav';
+import FilteredJobsButtons from '../components/filteredJobsButtons';
 
 const Freelancer2 = () => {
     const [activeKey, setActiveKey] = useState(null); // for navbar
@@ -29,7 +26,13 @@ const Freelancer2 = () => {
              <OwnerNavbar appearance="inverse" activeKey={activeKey} onSelect={setActiveKey}/>
       <div style={containerStyle}>
         <div style={{...sideStyle, width: '50%'}}>
-        <ExistingJobs />
+        {/* <ExistingJobs />    */}
+        {/* existing job use nhi karna h direct yaha pe filter lagana h such that jo owner ne upload kiye h vo he aaye */}
+        
+        <FilteredJobsButtons/>
+        
+        
+        
         </div>
         
       </div>

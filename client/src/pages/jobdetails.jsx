@@ -1,8 +1,11 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useState } from 'react';
+import OwnerNavbar from '../components/owner_nav';
 
 const JobDetails = () => {
   const { jobId } = useParams();
+  const [activeKey, setActiveKey] = useState(null); // for navbar
 
   const jobs = [
     { id: 1, title: 'Software Engineer', description: 'Responsible for developing and maintaining software applications.' },
@@ -19,14 +22,18 @@ const JobDetails = () => {
   }
 
   return (
+    <div>
+    
+    <OwnerNavbar appearance="inverse" activeKey={activeKey} onSelect={setActiveKey}/>
     <div style={styles.container}>
       <h2 style={styles.heading}>Job Details</h2>
       <div style={styles.detailsCard}>
         <h3 style={styles.title}>Title: {job.title}</h3>
         <p style={styles.description}><strong>Description:</strong> {job.description}</p>
         <Link to="https://github.com/sps1001/" style={styles.contributeButton} target='_blank'>
-          Contribute to this Project
+          Contribute to this Project 
         </Link>
+    </div>
       </div>
     </div>
   );
