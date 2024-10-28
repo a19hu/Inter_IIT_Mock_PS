@@ -43,7 +43,7 @@ const projectSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: ['resolved', 'unresolved', 'not_started'],
-        default: 'started'
+        default: 'not_started'
     }
 }, { timestamps: true });
 
