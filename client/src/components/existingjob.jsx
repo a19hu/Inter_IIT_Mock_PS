@@ -1,91 +1,73 @@
 import React from 'react';
-import { Stack, Panel, Badge } from 'rsuite'; // Assuming you're using rsuite for UI components
+import { Link } from 'react-router-dom';
 
 const ExistingJobs = () => {
-  // Dummy job entries
   const jobs = [
-    {
-      heading: "Frontend Developer",
-      image: "https://via.placeholder.com/50", // Placeholder image
-      amount: "$1000",
-      status: "Open",
-      statusColor: "green",
-      url:'/freelancer'
-    },
-    {
-      heading: "Backend Developer",
-      image: "https://via.placeholder.com/50",
-      amount: "$1200",
-      status: "Closed",
-      statusColor: "red",
-      url:'/freelancer'
-    },
-    {
-      heading: "UI/UX Designer",
-      image: "https://via.placeholder.com/50",
-      amount: "$800",
-      status: "In Progress",
-      statusColor: "orange",
-      url:'/freelancer'
-    },
-    {
-      heading: "Data Scientist",
-      image: "https://via.placeholder.com/50",
-      amount: "$1500",
-      status: "Open",
-      statusColor: "green",
-      url:'/freelancer'
-    },
-    {
-      heading: "Project Manager",
-      image: "https://via.placeholder.com/50",
-      amount: "$1300",
-      status: "On Hold",
-      statusColor: "gray",
-      url:'/freelancer'
-    },
+    { id: 1, title: '1.) Software Engineer', description: 'Responsible for developing and maintaining software applications.' },
+    { id: 2, title: '2.) Data Analyst', description: 'Analyzes data to provide business insights and support decision-making.' },
+    { id: 3, title: '3.) Product Manager', description: 'Oversees the development and launch of new products.' },
+    { id: 4, title: '4.) UX Designer', description: 'Designs user interfaces and improves user experience on digital platforms.' },
+    { id: 5, title: '5.) Marketing Specialist', description: 'Plans and executes marketing strategies to promote products.' }
   ];
 
-  const handleJobClick = (url) => {
-    window.location.href = url; // No changes needed here
-  };
-
   return (
-    <div style={{ padding: '30px 90px' }}  
-    
-    
-    
-    >
-      <h2>Already Posted Jobs:</h2>
-      <Stack spacing={20} direction="column" > {/* Ensure vertical stacking */}
-        {jobs.map((job, index) => (
-          <Panel 
-            key={index} 
-          
-            onClick={() => handleJobClick(job.url)} // Use the unique URL
-            // style={{  }} // Add cursor pointer style
-            bordered 
-            style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'space-between', 
-              padding: '10px 20px', 
-              backgroundColor: '#f9f9f9', 
-              width: '50vh' ,// Ensure full width for each panel
-              cursor: 'pointer'
-            }}
+    <div style={styles.container}>
+      <h2 style={styles.heading}>Already Posted Jobs:</h2>
+      <div style={styles.jobList}>
+        {jobs.map((job) => (
+          <Link
+            key={job.id}
+            to={`/job/${job.id}`}
+            style={styles.jobButton}
           >
-            <div style={{ flex: 1 }}>
-              <h4 style={{ margin: 0 }}>{job.heading}</h4>
-              <p style={{ margin: 0 }}>Amount: {job.amount}</p>
-            </div>
-            <img src={job.image} alt="Job" style={{ width: '50px', height: '50px', marginLeft: '20px' }} />
-            <Badge style={{ backgroundColor: job.statusColor, color: 'white', marginLeft: '20px' }}>{job.status}</Badge>
-          </Panel>
+            {job.title}
+          </Link>
         ))}
-      </Stack>
+      </div>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent:'center',
+    alignItems: 'center',
+    paddingTop: '50px',
+  },
+  heading: {
+    fontSize: '24px',
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: '20px',
+    textShadow: '1px 1px 2px #888',
+  },
+  jobList: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '15px',
+    width: '100%',
+    maxWidth: '400px',
+  },
+  jobButton: {
+    backgroundColor: '#4A90E2',
+    color: 'white',
+    padding: '12px 20px',
+    borderRadius: '8px',
+    width: '100%',
+    textAlign: 'center',
+    textDecoration: 'none',
+    fontSize: '18px',
+    fontWeight: '500',
+    transition: 'transform 0.2s, background-color 0.2s',
+    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+  },
+  jobButtonHover: {
+    transform: 'scale(1.05)',
+    backgroundColor: '#357ABD',
+  },
 };
 
 export default ExistingJobs;
