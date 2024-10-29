@@ -10,15 +10,15 @@ const FilteredJobsButtons = () => {
     { heading: "Project Manager", image: "https://via.placeholder.com/50", amount: "$1300", status: "On Hold", statusColor: "gray", url: '/job/5' }
   ]);
 
-//yaha upar url dynamic hona chiye abhi k liye fix daal dia h
-
-  const handleDelete = (index) => {
+  const handleDelete = (index, e) => {
+    e.stopPropagation(); // Prevent the panel click event from triggering
     const updatedJobs = jobs.filter((_, jobIndex) => jobIndex !== index);
     setJobs(updatedJobs);
   };
 
-  const handleEdit = (url) => {
-    window.location.href = url; // This could be a placeholder for navigation to an edit page
+  const handleEdit = (url, e) => {
+    e.stopPropagation(); // Prevent the panel click event from triggering
+    window.location.href = url; // Placeholder for navigation to an edit page
   };
 
   return (
@@ -28,8 +28,8 @@ const FilteredJobsButtons = () => {
         {jobs.map((job, index) => (
           <Panel
             key={index}
-            onClick={() => handleEdit(job.url)}
             bordered
+            onClick={() => handleEdit(job.url)}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -49,10 +49,10 @@ const FilteredJobsButtons = () => {
             
             {/* Buttons for Edit and Delete */}
             <div style={{ display: 'flex', gap: '10px', marginLeft: '20px' }}>
-              <Button color="green" appearance="primary" onClick={() => handleEdit(job.url)}>
+              <Button color="green" appearance="primary" onClick={(e) => handleEdit(job.url, e)}>
                 Edit
               </Button>
-              <Button color="red" appearance="primary" onClick={() => handleDelete(index)}>
+              <Button color="red" appearance="primary" onClick={(e) => handleDelete(index, e)}>
                 Delete
               </Button>
             </div>
