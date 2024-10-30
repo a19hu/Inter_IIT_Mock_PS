@@ -15,7 +15,7 @@ const projectSchema = new mongoose.Schema({
         required: true
     },
     deadline: { // problem
-        type: Date,
+        type: Number,
         required: true
     },
     applicationDate: {
