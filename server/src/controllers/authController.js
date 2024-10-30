@@ -44,10 +44,7 @@ export const callback = async (req, res) => {
         } else {
             // If user doesn't exist, store GitHub user data in session and redirect to enter-wallet
             req.session.githubUser = {
-                githubId: userData.id,
-                username: userData.login,
-                email: userData.email || `${userData.login}@users.noreply.github.com`,
-                avatarUrl: userData.avatar_url,
+                githubId: userData.login // login is github username
             };
             req.session.accessToken = accessToken; // Store access token for later use
             return res.redirect('/auth/enter-wallet');
@@ -96,9 +93,6 @@ export const addWallet = async (req, res) => {
         // Create a new user in the database
         const user = new User({
             githubId: githubUser.githubId,
-            username: githubUser.username,
-            email: githubUser.email,
-            avatarUrl: githubUser.avatarUrl,
             walletAddress: walletAddress,
         });
 
