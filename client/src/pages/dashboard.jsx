@@ -8,7 +8,7 @@ const Dashboard = () => {
 
   // Navigation functions
   const goToOwnerPage = () => {
-    window.location.href = '/owner';
+    window.location.href = '/owner_projects';
   };
   const goToFreelancerPage = () => {
     window.location.href = '/freelancer';
