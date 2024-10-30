@@ -34,7 +34,6 @@ export const deploySmartContract = async (projectid) => {
         const deployerAccount = accounts[0]; // Assume the first account is the deployer
 
         // Create the contract instance
-        console.log("Contract Abi = ", CONTRACT_ABI);
         const contract = new web3.eth.Contract(CONTRACT_ABI); // ABI is needed for contract interactions
 
         // Deploy the contract with specified parameters
@@ -45,8 +44,6 @@ export const deploySmartContract = async (projectid) => {
 
         // Estimate gas for the transaction
         const gasEstimate = await deployTx.estimateGas({ from: deployerAccount, value: amount });
-
-        console.log("deployer Acc = ", deployerAccount)
 
         // Send the transaction
         const deployedContract = await deployTx.send({
