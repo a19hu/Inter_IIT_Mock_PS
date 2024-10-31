@@ -52,11 +52,13 @@ import CustomFooter from '../components/footer';
       {/* Header Section */}
       <Header>
 
+
         <Navbar appearance='inverse'>
           <Navbar.Brand>Home</Navbar.Brand>
           <Nav pullRight>
             <Nav.Item icon={<FaEnvelope/>} onClick={copyToClipboard} >{walletAddress ? walletAddress : "Not connected"}</Nav.Item>
             <Nav.Item icon={<FaUser />} onClick={goToProfilePage} style={{ cursor: 'pointer' }}>
+
               Profile
             </Nav.Item>
 
@@ -127,8 +129,10 @@ import CustomFooter from '../components/footer';
 
       {/* Footer Section */}
 
+
       <CustomFooter />
      
+
 
     </Container>
   );

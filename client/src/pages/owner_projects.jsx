@@ -1,43 +1,59 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
-import CNavbar from '../components/navbar';
-import ExistingJobs from '../components/existingjob';
+import React, { useEffect, useState } from 'react';
 import OwnerNavbar from '../components/owner_nav';
 import FilteredJobsButtons from '../components/filteredJobsButtons';
 
 const Freelancer2 = () => {
-    const [activeKey, setActiveKey] = useState(null); // for navbar
+  const [activeKey, setActiveKey] = useState(null);
 
   const containerStyle = {
     display: 'flex',
     width: '100%',
-    height: '100vh'
+    minHeight: 'calc(100vh - 60px)', // Adjust height to account for navbar
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '<div id="e9f7f"></div>e', // Light blue background for the main container
+    gap: '20px',
+    paddingTop: '20px', // Added padding for spacing from the navbar
+    boxSizing: 'border-box',
   };
 
   const sideStyle = {
-    width: '50%',
+    width: '45%',
     padding: '20px',
-    boxSizing: 'border-box'
+    borderRadius: '8px',
+    backgroundColor: '#ffdddf', // Keeping white for the project panels
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Slightly darker shadow for depth
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   };
 
+  const headerStyle = {
+    fontSize: '20px',
+    fontWeight: 'bold',
+    marginBottom: '15px',
+    color: '#006aff', // Change header text to a bright blue
+    textAlign: 'center',
+  };
 
-    return (
-        <div>
-             <OwnerNavbar appearance="inverse" activeKey={activeKey} onSelect={setActiveKey}/>
+  return (
+    <div>
+      <OwnerNavbar appearance="inverse" activeKey={activeKey} onSelect={setActiveKey} />
       <div style={containerStyle}>
-        <div style={{...sideStyle, width: '50%'}}>
-        {/* <ExistingJobs />    */}
-        {/* existing job use nhi karna h direct yaha pe filter lagana h such that jo owner ne upload kiye h vo he aaye */}
-        
-        <FilteredJobsButtons/>
-        
-        
-        
+        {/* Left side: display one set of filtered jobs */}
+        <div style={sideStyle}>
+          <div style={headerStyle}>Projects Uploaded by Owner</div>
+          <FilteredJobsButtons /> {/* This will show jobs filtered by owner */}
         </div>
-        
+
+        {/* Right side: display another set of filtered jobs */}
+        <div style={sideStyle}>
+          <div style={headerStyle}>Other Available Projects</div>
+          <FilteredJobsButtons /> {/* Modify as needed to show different projects */}
+        </div>
       </div>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default Freelancer2;

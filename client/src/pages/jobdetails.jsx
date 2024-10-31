@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+
 import FreelancerNavbar from '../components/FreelancerNavbar';
 import CustomFooter from '../components/footer';
 // import { useState } from 'react';
+
 
 const JobDetails = () => {
   const { jobId } = useParams();
@@ -23,6 +25,7 @@ const JobDetails = () => {
 
   return (
     <div>
+
       <FreelancerNavbar appearance="inverse" />
       <div style={styles.container}>
         <h2 style={styles.heading}>Job Details</h2>
@@ -33,7 +36,9 @@ const JobDetails = () => {
             Contribute to this Project 
           </Link>
         </div>
+
       <CustomFooter />
+
       </div>
     </div>
   );

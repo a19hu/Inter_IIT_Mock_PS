@@ -2,6 +2,7 @@ import React from 'react';
 import './profile.css'; 
 import { useState } from 'react';
 import OwnerNavbar from '../components/owner_nav';
+
 const Profile = () => {
     const [activeKey, setActiveKey] = useState(null); // for navbar
     const user = {
@@ -20,6 +21,7 @@ const Profile = () => {
     };
 
     return (
+
         <>
           <OwnerNavbar appearance="inverse" activeKey={activeKey} onSelect={setActiveKey}/>
         <div className="profile-container">
@@ -32,29 +34,30 @@ const Profile = () => {
                     <p><strong>Email:</strong> {user.email}</p>
                     <p><strong>Location:</strong> {user.location}</p>
                     <p><strong>Experience:</strong> {user.experience}</p>
+
                 </div>
-            </div>
 
-            {/* Skills Section */}
-            <div className="skills-section">
-                <h2>Skills</h2>
-                <ul>
-                    {user.skills.map((skill, index) => (
-                        <li key={index}>{skill}</li>
-                    ))}
-                </ul>
-            </div>
+                {/* Skills Section */}
+                <div className="skills-section">
+                    <h2>Skills</h2>
+                    <ul>
+                        {user.skills.map((skill, index) => (
+                            <li key={index}>{skill}</li>
+                        ))}
+                    </ul>
+                </div>
 
-            {/* Projects Section */}
-            <div className="projects-section">
-                <h2>Projects</h2>
-                <ul>
-                    {user.projects.map((project, index) => (
-                        <li key={index}>
-                            <a href={project.link}>{project.name}</a>
-                        </li>
-                    ))}
-                </ul>
+                {/* Projects Section */}
+                <div className="projects-section">
+                    <h2>Projects</h2>
+                    <ul>
+                        {user.projects.map((project, index) => (
+                            <li key={index}>
+                                <a href={project.link}>{project.name}</a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </div>
                     </>

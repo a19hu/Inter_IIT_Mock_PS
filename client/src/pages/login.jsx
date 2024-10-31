@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import {
   Container,
-  Header,
   Content,
   Button,
-  Navbar,
   Panel,
   Stack,
 } from 'rsuite';
 
+
 import { FaGithub, FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 import CustomFooter from '../components/footer';
+import './Login.css'; // Import the CSS file
+
 
 const CLIENT_ID = "Ov23liM0IKevXYNvjh2J";
 
@@ -22,6 +23,7 @@ function loginWithGithub() {
 const Login = () => {
 
 
+
 const [renderer, setRenderer] = useState(false);
 const [userData, setUserData] = useState({});
 
@@ -31,6 +33,7 @@ async function getUserData() {
     headers: {
       "Authorization": "Bearer " + localStorage.getItem("accessToken")
     }
+
 
     }).then(response => {
       return response.json();
@@ -83,6 +86,45 @@ async function getUserData() {
   }, [userData]);
 
   return (
+
+    {/*  sahil
+    <Container 
+      className="container" 
+      style={{ backgroundColor: '#5D3FD3', height: '100vh' }} // Change to a desired color
+    >
+      <Content>
+        <Stack alignItems="center" justifyContent="center" style={{ height: '100%' }}>
+          <h2 className="tagline">Welcome Coder, Start from here</h2>
+          <Panel header={<h2 className="panel-header">Sign in</h2>} bordered style={{ width: 400 }}>
+            {
+              localStorage.getItem("accessToken") ? 
+              <>
+                <h1>We have the access token</h1>
+                <Button onClick={() => { localStorage.removeItem("accessToken"); setRenderer(!renderer); }}>
+                  log out
+                </Button>
+  
+                <h3>Get User Data from GitHub API</h3>
+                <Button onClick={getUserData}>Get Data</Button>
+                {Object.keys(userData).length !== 0 &&
+                  <>
+                    <h4>Hey there {userData.login}</h4>
+                    <img width="100px" height="100px" src={userData.avatar_url} alt="User Avatar" />
+                    <a href={userData.html_url} style={{ color: "white" }}>Link to the GitHub profile</a>
+                  </>
+                }
+              </>
+              :
+              <>
+                <div className="button-container">
+                  <Button className="button" endIcon={<FaGithub />} onClick={loginWithGithub}>
+                    Continue with Github
+                  </Button>
+                </div>
+              </>
+            }
+          </Panel> */}
+
     <Container style={{ height: '100vh' }}>
       {/* <Header>
         <Navbar appearance="inverse">
@@ -238,6 +280,7 @@ async function getUserData() {
     </div>
   }
 </Panel>
+
 
         </Stack>
       </Content>
