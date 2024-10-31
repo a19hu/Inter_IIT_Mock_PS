@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import FreelancerNavbar from '../components/FreelancerNavbar'; // Adjust path if necessary
 
 const ExistingJobs = () => {
   const jobs = [
@@ -11,18 +12,21 @@ const ExistingJobs = () => {
   ];
 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.heading}>Already Posted Jobs:</h2>
-      <div style={styles.jobList}>
-        {jobs.map((job) => (
-          <Link
-            key={job.id}
-            to={`/job/${job.id}`}
-            style={styles.jobButton}
-          >
-            {job.title}
-          </Link>
-        ))}
+    <div>
+      <FreelancerNavbar appearance="inverse" />
+      <div style={styles.container}>
+        <h2 style={styles.heading}>Already Posted Jobs:</h2>
+        <div style={styles.jobList}>
+          {jobs.map((job) => (
+            <Link
+              key={job.id}
+              to={`/job/${job.id}`}
+              style={styles.jobButton}
+            >
+              {job.title}
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -32,7 +36,7 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent:'center',
+    justifyContent: 'center',
     alignItems: 'center',
     paddingTop: '50px',
   },
