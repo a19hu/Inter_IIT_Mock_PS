@@ -12,7 +12,12 @@ import JobDetails from './pages/jobdetails';
 import Owner_projects from './pages/owner_projects';
 // import Project_description from './pages/project_description';
 import Profile from './pages/profile';
+
 import ExistingJob from './components/existingjob';
+import EditJob from './components/editJob';
+
+//import Contributor from './pages/contributor';
+
 
 const App = () => {
   return (
@@ -28,11 +33,15 @@ const App = () => {
         {/* <Route path="/owner" element={<Owner />} /> */}
         <Route path="/freelancer" element={<ExistingJob />} />
         <Route path="/" element={<ExistingJobs />} />
+        {/* <Route path="/freelancer" element={<Freelancer2 />} /> */}
+        {/* <Route path="/" element={<ExistingJobs />} /> */}
         <Route path="/job/:jobId" element={<JobDetails />} />
         <Route path="/owner_projects" element={<Owner_projects />} />
         <Route path="/project_description" element={<JobDetails/>} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/existingjob" element={<ExistingJob />} />
+        <Route path="/edit_job" element={<EditJob />} />
+
         
         {/* <Route path="/dashboard" element={<Dashboard />} /> */}
       </Routes>

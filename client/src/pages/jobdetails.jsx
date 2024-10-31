@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import FreelancerNavbar from '../components/FreelancerNavbar';
 import CustomFooter from '../components/footer';
+// import { useState } from 'react';
 
 const JobDetails = () => {
   const { jobId } = useParams();
