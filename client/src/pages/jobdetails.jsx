@@ -1,7 +1,8 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useState } from 'react';
 import FreelancerNavbar from '../components/FreelancerNavbar';
-
+import FreelancerNavbar from '../components/navbar';
 const JobDetails = () => {
   const { jobId } = useParams();
 
@@ -21,6 +22,7 @@ const JobDetails = () => {
 
   return (
     <div>
+
       <FreelancerNavbar appearance="inverse" />
       <div style={styles.container}>
         <h2 style={styles.heading}>Job Details</h2>
@@ -31,6 +33,7 @@ const JobDetails = () => {
             Contribute to this Project 
           </Link>
         </div>
+
       </div>
     </div>
   );
