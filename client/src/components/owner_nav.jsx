@@ -23,7 +23,7 @@ const OwnerNavbar = ({ onSelect, activeKey, ...props }) => {
   return (
     <Navbar {...props}>
       <Navbar.Brand onClick={handleBrandClick} style={{ cursor: 'pointer' }}>
-        Blockchain
+        Home
       </Navbar.Brand>
       <Nav onSelect={onSelect} activeKey={activeKey}>
         <Nav.Item eventKey="2" onClick={handleProjectsClick}>

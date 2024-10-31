@@ -3,11 +3,11 @@ import { Stack, Panel, Badge, Button } from 'rsuite';
 
 const FilteredJobsButtons = () => {
   const [jobs, setJobs] = useState([
-    { heading: "Frontend Developer", image: "https://via.placeholder.com/50", amount: "$1000", status: "Open", statusColor: "green", url: '/job/1' },
-    { heading: "Backend Developer", image: "https://via.placeholder.com/50", amount: "$1200", status: "Closed", statusColor: "red", url: '/job/2' },
-    { heading: "UI/UX Designer", image: "https://via.placeholder.com/50", amount: "$800", status: "In Progress", statusColor: "orange", url: '/job/3' },
-    { heading: "Data Scientist", image: "https://via.placeholder.com/50", amount: "$1500", status: "Open", statusColor: "green", url: '/job/4' },
-    { heading: "Project Manager", image: "https://via.placeholder.com/50", amount: "$1300", status: "On Hold", statusColor: "gray", url: '/job/5' }
+    { heading: "Frontend Developer", image: "https://via.placeholder.com/50", amount: "$1000", status: "Open", statusColor: "#28a745", url: '/job/1' },
+    { heading: "Backend Developer", image: "https://via.placeholder.com/50", amount: "$1200", status: "Closed", statusColor: "#dc3545", url: '/job/2' },
+    { heading: "UI/UX Designer", image: "https://via.placeholder.com/50", amount: "$800", status: "In Progress", statusColor: "#ffc107", url: '/job/3' },
+    { heading: "Data Scientist", image: "https://via.placeholder.com/50", amount: "$1500", status: "Open", statusColor: "#28a745", url: '/job/4' },
+    { heading: "Project Manager", image: "https://via.placeholder.com/50", amount: "$1300", status: "On Hold", statusColor: "#6c757d", url: '/job/5' }
   ]);
 
   const handleDelete = (index, e) => {
@@ -23,7 +23,7 @@ const FilteredJobsButtons = () => {
 
   return (
     <div style={{ padding: '30px 90px' }}>
-      <h2>Already Posted Jobs:</h2>
+      <h2 style={{ color: '#007bff', textAlign: 'center' }}>Already Posted Jobs:</h2> {/* Title Style */}
       <Stack spacing={20} direction="column">
         {jobs.map((job, index) => (
           <Panel
@@ -34,25 +34,27 @@ const FilteredJobsButtons = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              padding: '10px 20px',
-              backgroundColor: '#f9f9f9',
+              padding: '15px 20px', // Increased padding for a more spacious feel
+              backgroundColor: '#ffffff', // White background for the panel
               width: '50vh',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // Subtle shadow for depth
+              borderRadius: '8px' // Rounded corners
             }}
           >
             <div style={{ flex: 1 }}>
-              <h4 style={{ margin: 0 }}>{job.heading}</h4>
-              <p style={{ margin: 0 }}>Amount: {job.amount}</p>
+              <h4 style={{ margin: 0, color: '#333' }}>{job.heading}</h4> {/* Job Title Style */}
+              <p style={{ margin: 0, color: '#555' }}>Amount: {job.amount}</p> {/* Amount Style */}
             </div>
             <img src={job.image} alt="Job" style={{ width: '50px', height: '50px', marginLeft: '20px' }} />
             <Badge style={{ backgroundColor: job.statusColor, color: 'white', marginLeft: '20px' }}>{job.status}</Badge>
             
             {/* Buttons for Edit and Delete */}
             <div style={{ display: 'flex', gap: '10px', marginLeft: '20px' }}>
-              <Button color="green" appearance="primary" onClick={(e) => handleEdit(job.url, e)}>
+              <Button color="green" appearance="primary" onClick={(e) => handleEdit(job.url, e)} style={{ borderRadius: '4px' }}>
                 Edit
               </Button>
-              <Button color="red" appearance="primary" onClick={(e) => handleDelete(index, e)}>
+              <Button color="red" appearance="primary" onClick={(e) => handleDelete(index, e)} style={{ borderRadius: '4px' }}>
                 Delete
               </Button>
             </div>

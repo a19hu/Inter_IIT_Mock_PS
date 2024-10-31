@@ -56,8 +56,8 @@ const styles = {
     maxWidth: '400px',
   },
   jobButton: {
-    backgroundColor: '#4A90E2',
-    color: 'white',
+    backgroundColor: '#ffffff', // Changed to white
+    color: '#333333', // Dark color for contrast
     padding: '12px 20px',
     borderRadius: '8px',
     width: '100%',
@@ -70,7 +70,7 @@ const styles = {
   },
   jobButtonHover: {
     transform: 'scale(1.05)',
-    backgroundColor: '#357ABD',
+    backgroundColor: '#e0e0e0', // Light gray for hover effect
   },
 };
 

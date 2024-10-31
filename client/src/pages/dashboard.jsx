@@ -21,11 +21,11 @@ const Dashboard = () => {
     <Container>
       {/* Header Section */}
       <Header>
-        <Navbar>
-          <Navbar.Brand>My Dashboard</Navbar.Brand>
+        <Navbar style={{ backgroundColor: '#007bff' }}> {/* Change the color to blue */}
+          <Navbar.Brand style={{ color: '#ffffff' }}>My Dashboard</Navbar.Brand> {/* Make text white for contrast */}
           <Nav pullRight>
-            <Nav.Item>{walletAddress}</Nav.Item>
-            <Nav.Item icon={<FaUser />} onClick={goToProfilePage} style={{ cursor: 'pointer' }}>
+            <Nav.Item style={{ color: '#ffffff' }}>{walletAddress}</Nav.Item>
+            <Nav.Item icon={<FaUser />} onClick={goToProfilePage} style={{ color: '#ffffff', cursor: 'pointer' }}>
               Profile
             </Nav.Item>
           </Nav>
@@ -82,9 +82,11 @@ const Dashboard = () => {
       </Content>
 
       {/* Footer Section */}
-      <Footer style={{ textAlign: 'center', padding: '10px 0' }}>
-        <p>© 2024 My Company | <a href="#privacy-policy">Privacy Policy</a> | <a href="#terms">Terms of Service</a></p>
-      </Footer>
+      {/* Footer Section */}
+<Footer style={{ textAlign: 'center', padding: '10px 0', backgroundColor: '#343a40', color: '#ffffff' }}> {/* Change background color and text color */}
+  <p>© 2024 My Company | <a href="#privacy-policy" style={{ color: '#ffffff' }}>Privacy Policy</a> | <a href="#terms" style={{ color: '#ffffff' }}>Terms of Service</a></p>
+</Footer>
+
     </Container>
   );
 };
