@@ -1,10 +1,12 @@
+
 import React from 'react'
 import { useEffect, useState } from 'react';
 import { Container, Header, Content, Button, Navbar, Panel, Stack,Footer,Modal,ButtonToolbar} from 'rsuite';
 import RemindIcon from '@rsuite/icons/legacy/Remind';
 import 'rsuite/dist/rsuite.min.css'; // Import rsuite CSS
-import 'rsuite/dist/rsuite.min.css'; // Import rsuite CSS
+iimport { stringifyReactNode } from 'rsuite/esm/internals/utils';
 import CustomFooter from '../components/footer';
+
 
 
 const Metamask = () => {
@@ -12,7 +14,14 @@ const Metamask = () => {
   const [account, setAccount] = useState(null);
 
   useEffect(() => {
-    // Check if MetaMask is installed
+      const storedUserData = localStorage.getItem("userData");
+      console.log(storedUserData);
+      if (storedUserData) {
+        const userData = JSON.parse(storedUserData);
+        console.log("User Data on Dashboard:", userData);
+      } else {
+        console.log("No user data found in localStorage.");
+      }
     if (typeof window.ethereum !== 'undefined') {
       setIsMetaMaskInstalled(true);
     } else {
@@ -25,12 +34,20 @@ const Metamask = () => {
     try {
       // Request account access if MetaMask is installed
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      setAccount(accounts[0]);
+
+      const userAccount = accounts[0];
+      setAccount(userAccount);
+
+      // Log account details to the console and store in localStorage
+      console.log("Connected MetaMask Account:", userAccount);
+      localStorage.setItem("metaMaskAccount", userAccount);
+
       // Redirect to next page after login
       // console.log("Connected to MetaMask with account: ", accounts[0]);
       window.location.href = '/dashboard';
+
     } catch (error) {
-      console.error("User rejected the connection request");
+      console.error("User rejected the connection request", error);
     }
   };
 
@@ -45,6 +62,35 @@ const Metamask = () => {
   };
 
   return (
+//satyam:
+//     <Container style={{ height: '100vh' }}>
+//       <Content>
+//         <Stack alignItems="center" justifyContent="center" style={{ height: '100%' }}>
+//           <Panel bordered style={{ textAlign: 'center', width: 400 }}>
+//             {isMetaMaskInstalled ? (
+//               <div>
+//                 <h1>Welcome to MetaMask Login</h1>
+//                 {account ? (
+//                   <div>
+//                     <p>Connected Account: {account}</p>
+//                     <Button onClick={() => window.location.href = '/dashboard'}>Proceed to Next Page</Button>
+//                   </div>
+//                 ) : (
+//                   <Button onClick={connectMetaMask}>Connect with MetaMask</Button>
+//                 )}
+//               </div>
+//             ) : (
+//               <p>Redirecting to install MetaMask...</p>
+//             )}
+//           </Panel>
+//         </Stack>
+//       </Content>
+//     </Container>
+//   );
+// }
+
+// export default Metamask;
+
     <>
     <Container 
       style={{
@@ -119,3 +165,4 @@ const Metamask = () => {
 };
 
 export default Metamask;
+
