@@ -4,8 +4,22 @@ import { FaUser, FaEnvelope } from 'react-icons/fa';
 import 'rsuite/dist/rsuite.min.css';
 import CustomFooter from '../components/footer';
 
+
 const Dashboard = () => {
-  const walletAddress = "0xYourWalletAddress"; // Replace with dynamic wallet address
+  const walletAddress = window.ethereum.selectedAddress || "0xYourWalletAddress"; // Replace with dynamic wallet address from MetaMask
+
+
+//when i click on wallet address it gets copied to clipboard
+  const copyToClipboard = () => {
+    const el = document.createElement('textarea');
+    el.value = walletAddress;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    alert('Wallet address copied to clipboard');
+    console.log('Wallet address copied to clipboard');
+  };
 
   // Navigation functions
   const goToOwnerPage = () => {
@@ -22,10 +36,10 @@ const Dashboard = () => {
     <Container>
       {/* Header Section */}
       <Header>
-        <Navbar>
+        <Navbar appearance='inverse'>
           <Navbar.Brand>My Dashboard</Navbar.Brand>
           <Nav pullRight>
-            <Nav.Item>{walletAddress}</Nav.Item>
+            <Nav.Item icon={<FaEnvelope/>} onClick={copyToClipboard} >{walletAddress}</Nav.Item>
             <Nav.Item icon={<FaUser />} onClick={goToProfilePage} style={{ cursor: 'pointer' }}>
               Profile
             </Nav.Item>
