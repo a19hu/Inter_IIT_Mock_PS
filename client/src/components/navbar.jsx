@@ -1,16 +1,8 @@
-import React from 'react';
 import { Navbar, Nav } from 'rsuite';
 import HomeIcon from '@rsuite/icons/legacy/Home';
 import CogIcon from '@rsuite/icons/legacy/Cog';
-import { useNavigate } from 'react-router-dom';
 
 const CustomNavbar = ({ onSelect, activeKey, ...props }) => {
-  const navigate = useNavigate();
-
-  const handleSettingsClick = () => {
-    navigate('/profile');
-  };
-
   return (
     <Navbar {...props}>
       <Navbar.Brand href="#">RSUITE</Navbar.Brand>
@@ -25,10 +17,10 @@ const CustomNavbar = ({ onSelect, activeKey, ...props }) => {
         </Nav.Menu>
       </Nav>
       <Nav pullRight>
-        <Nav.Item icon={<CogIcon />} onClick={handleSettingsClick}>Settings</Nav.Item>
+        <Nav.Item icon={<CogIcon />}>Settings</Nav.Item>
       </Nav>
     </Navbar>
   );
 };
 
-export default CustomNavbar;
+export default CustomNavbar

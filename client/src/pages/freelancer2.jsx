@@ -6,6 +6,7 @@ import CNavbar from '../components/navbar';
 import Newjob from '../components/newjob';
 import ExistingJobs from '../components/existingjob';
 import Freelancer from './freelancer';
+import OwnerNavbar from '../components/owner_nav';
 
 const Freelancer2 = () => {
     const [activeKey, setActiveKey] = useState(null); // for navbar
@@ -36,7 +37,7 @@ const Freelancer2 = () => {
 
     return (
         <div>
-             <CNavbar appearance="inverse" activeKey={activeKey} onSelect={setActiveKey}/>
+             <OwnerNavbar appearance="inverse" activeKey={activeKey} onSelect={setActiveKey}/>
       <div style={containerStyle}>
         <div style={{...sideStyle, width: '50%'}}>
         <ExistingJobs />
