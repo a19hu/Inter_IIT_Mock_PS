@@ -1,5 +1,4 @@
 
-import RemindIcon from '@rsuite/icons/legacy/Remind';
 import React from 'react'
 import { useEffect, useState } from 'react';
 import { Container, Header, Content, Button, Navbar, Panel, Stack,Footer,Modal,ButtonToolbar} from 'rsuite';
@@ -156,10 +155,7 @@ const Metamask = () => {
           </Modal>
         )}
 
-      </div>
-      {/* <footer style={{ marginTop: 'auto', textAlign: 'center', padding: '10px', backgroundColor: '#4CAF50', color: 'white' }}>
-        <p>© {new Date().getFullYear()} Your Company. All Rights Reserved.</p>
-      </footer> */}
+      </Content>
     </Container>
       <CustomFooter />
       </>
