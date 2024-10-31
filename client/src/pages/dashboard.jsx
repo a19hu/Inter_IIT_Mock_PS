@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Header, Content, Button, Navbar, Nav, Panel, Stack, Footer } from 'rsuite';
 import { FaUser, FaEnvelope } from 'react-icons/fa';
 import 'rsuite/dist/rsuite.min.css';
+import CustomFooter from '../components/footer';
 
 const Dashboard = () => {
   const walletAddress = "0xYourWalletAddress"; // Replace with dynamic wallet address
@@ -82,9 +83,8 @@ const Dashboard = () => {
       </Content>
 
       {/* Footer Section */}
-      <Footer style={{ textAlign: 'center', padding: '10px 0' }}>
-        <p>© 2024 My Company | <a href="#privacy-policy">Privacy Policy</a> | <a href="#terms">Terms of Service</a></p>
-      </Footer>
+      <CustomFooter />
+     
     </Container>
   );
 };

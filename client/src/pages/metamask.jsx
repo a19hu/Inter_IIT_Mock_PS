@@ -4,6 +4,7 @@ import { Container, Header, Content, Button, Navbar, Panel, Stack,Footer,Modal,B
 import RemindIcon from '@rsuite/icons/legacy/Remind';
 import 'rsuite/dist/rsuite.min.css'; // Import rsuite CSS
 import 'rsuite/dist/rsuite.min.css'; // Import rsuite CSS
+import CustomFooter from '../components/footer';
 
 
 const Metamask = () => {
@@ -26,6 +27,7 @@ const Metamask = () => {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
       setAccount(accounts[0]);
       // Redirect to next page after login
+      // console.log("Connected to MetaMask with account: ", accounts[0]);
       window.location.href = '/dashboard';
     } catch (error) {
       console.error("User rejected the connection request");
@@ -43,9 +45,10 @@ const Metamask = () => {
   };
 
   return (
+    <>
     <Container 
       style={{
-        height: '100vh',
+        height: '90vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -106,10 +109,12 @@ const Metamask = () => {
           </Modal>
         )}
       </div>
-      <footer style={{ marginTop: 'auto', textAlign: 'center', padding: '10px', backgroundColor: '#4CAF50', color: 'white' }}>
+      {/* <footer style={{ marginTop: 'auto', textAlign: 'center', padding: '10px', backgroundColor: '#4CAF50', color: 'white' }}>
         <p>© {new Date().getFullYear()} Your Company. All Rights Reserved.</p>
-      </footer>
+      </footer> */}
     </Container>
+      <CustomFooter />
+      </>
   );
 };
 

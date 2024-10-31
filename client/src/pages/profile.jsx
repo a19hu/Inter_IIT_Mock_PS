@@ -1,6 +1,9 @@
 import React from 'react';
 import './profile.css'; 
+import { useState } from 'react';
+import OwnerNavbar from '../components/owner_nav';
 const Profile = () => {
+    const [activeKey, setActiveKey] = useState(null); // for navbar
     const user = {
         name: "Jane Doe",
         email: "jane.doe@example.com",
@@ -17,6 +20,8 @@ const Profile = () => {
     };
 
     return (
+        <>
+          <OwnerNavbar appearance="inverse" activeKey={activeKey} onSelect={setActiveKey}/>
         <div className="profile-container">
             {/* Profile Header */}
             <div className="profile-header">
@@ -52,6 +57,7 @@ const Profile = () => {
                 </ul>
             </div>
         </div>
+                    </>
     );
 };
 
