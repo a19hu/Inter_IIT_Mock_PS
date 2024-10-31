@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useState } from 'react';
-import OwnerNavbar from '../components/owner_nav';
+import FreelancerNavbar from '../components/navbar';
 
 const JobDetails = () => {
   const { jobId } = useParams();
@@ -24,7 +24,7 @@ const JobDetails = () => {
   return (
     <div>
     
-    <OwnerNavbar appearance="inverse" activeKey={activeKey} onSelect={setActiveKey}/>
+    <FreelancerNavbar appearance="inverse" activeKey={activeKey} onSelect={setActiveKey}/>
     <div style={styles.container}>
       <h2 style={styles.heading}>Job Details</h2>
       <div style={styles.detailsCard}>
