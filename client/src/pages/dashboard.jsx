@@ -37,7 +37,7 @@ const Dashboard = () => {
       {/* Header Section */}
       <Header>
         <Navbar appearance='inverse'>
-          <Navbar.Brand>My Dashboard</Navbar.Brand>
+          <Navbar.Brand>Home</Navbar.Brand>
           <Nav pullRight>
             <Nav.Item icon={<FaEnvelope/>} onClick={copyToClipboard} >{walletAddress}</Nav.Item>
             <Nav.Item icon={<FaUser />} onClick={goToProfilePage} style={{ cursor: 'pointer' }}>

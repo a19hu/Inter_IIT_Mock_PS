@@ -17,7 +17,7 @@ const FilteredJobsButtons = () => {
   };
 
   const handleEdit = (url, e) => {
-    e.stopPropagation(); // Prevent the panel click event from triggering
+    // e.stopPropagation(); // This was giving runTime error
     window.location.href = url; // Placeholder for navigation to an edit page
   };
 
