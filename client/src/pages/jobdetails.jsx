@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import FreelancerNavbar from '../components/FreelancerNavbar';
+import CustomFooter from '../components/footer';
 
 const JobDetails = () => {
   const { jobId } = useParams();
@@ -31,6 +32,7 @@ const JobDetails = () => {
             Contribute to this Project 
           </Link>
         </div>
+      <CustomFooter />
       </div>
     </div>
   );
