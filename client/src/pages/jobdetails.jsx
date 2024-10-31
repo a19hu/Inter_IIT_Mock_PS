@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useState } from 'react';
+
 import FreelancerNavbar from '../components/FreelancerNavbar';
-import FreelancerNavbar from '../components/navbar';
+import CustomFooter from '../components/footer';
+// import { useState } from 'react';
+
+
 const JobDetails = () => {
   const { jobId } = useParams();
 
@@ -33,6 +36,8 @@ const JobDetails = () => {
             Contribute to this Project 
           </Link>
         </div>
+
+      <CustomFooter />
 
       </div>
     </div>

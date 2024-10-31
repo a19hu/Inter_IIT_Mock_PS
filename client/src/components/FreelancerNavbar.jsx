@@ -1,6 +1,8 @@
 import React from 'react';
 import { Navbar, Nav } from 'rsuite';
 import { useNavigate } from 'react-router-dom';
+import { FaUser } from 'react-icons/fa';
+
 
 const FreelancerNavbar = ({ onSelect, activeKey, ...props }) => {
   const navigate = useNavigate();
@@ -30,9 +32,14 @@ const FreelancerNavbar = ({ onSelect, activeKey, ...props }) => {
       </Nav>
       
       <Nav pullRight>
-        <Nav.Item eventKey="2" onClick={handleProfileClick} style={styles.navItem}>
+
+        <Nav.Item icon={<FaUser />}eventKey="2" onClick={handleProfileClick} style={styles.navItem}>
           Profile
         </Nav.Item>
+        {/* <Nav.Item icon={<FaUser />} onClick={goToProfilePage} style={{ cursor: 'pointer' }}>
+              Profile
+            </Nav.Item> */}
+
       </Nav>
     </Navbar>
   );

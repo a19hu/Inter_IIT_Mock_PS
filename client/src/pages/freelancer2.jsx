@@ -11,6 +11,17 @@ import FreelancerNavbar from '../components/navbar';
 const Freelancer2 = () => {
     const [activeKey, setActiveKey] = useState(null); // for navbar
 
+    const [account, setAccount] = useState(null);
+
+    useEffect(() => {
+      // Retrieve account from localStorage
+      const storedAccount = localStorage.getItem("metaMaskAccount");
+      if (storedAccount) {
+        setAccount(storedAccount);
+        console.log("Retrieved MetaMask Account:", storedAccount); // Log to console
+      }
+    }, []);
+
   const containerStyle = {
     display: 'flex',
     width: '100%',

@@ -1,8 +1,10 @@
 import React from 'react';
-import OwnerNavbar from '../components/owner_nav'; // Make sure the path is correct
-import './profile.css';
+import './profile.css'; 
+import { useState } from 'react';
+import OwnerNavbar from '../components/owner_nav';
 
 const Profile = () => {
+    const [activeKey, setActiveKey] = useState(null); // for navbar
     const user = {
         name: "Jane Doe",
         email: "jane.doe@example.com",
@@ -19,21 +21,20 @@ const Profile = () => {
     };
 
     return (
-        <div>
-            {/* Navbar */}
-            <OwnerNavbar appearance="inverse" /> {/* Navbar appears at the top */}
 
-            <div className="profile-container">
-                {/* Profile Header */}
-                <div className="profile-header">
-                    <img src={"/profile1.jpg"} alt="Profile" className="profile-picture" />
-                    <div className="profile-info">
-                        <h1>{user.name}</h1>
-                        <p>{user.bio}</p>
-                        <p><strong>Email:</strong> {user.email}</p>
-                        <p><strong>Location:</strong> {user.location}</p>
-                        <p><strong>Experience:</strong> {user.experience}</p>
-                    </div>
+        <>
+          <OwnerNavbar appearance="inverse" activeKey={activeKey} onSelect={setActiveKey}/>
+        <div className="profile-container">
+            {/* Profile Header */}
+            <div className="profile-header">
+                <img src={user.profilePicture} alt="Profile" className="profile-picture" />
+                <div className="profile-info">
+                    <h1>{user.name}</h1>
+                    <p>{user.bio}</p>
+                    <p><strong>Email:</strong> {user.email}</p>
+                    <p><strong>Location:</strong> {user.location}</p>
+                    <p><strong>Experience:</strong> {user.experience}</p>
+
                 </div>
 
                 {/* Skills Section */}
@@ -59,6 +60,7 @@ const Profile = () => {
                 </div>
             </div>
         </div>
+                    </>
     );
 };
 

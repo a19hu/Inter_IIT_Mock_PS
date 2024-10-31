@@ -20,10 +20,9 @@ const FilteredJobsButtons = () => {
     setJobs(updatedJobs);
   };
 
-  const handleEdit = (job, e) => {
-    e.stopPropagation();
-    navigate(job.url, { state: job }); // Correct way to pass data
-
+  const handleEdit = (url, e) => {
+    // e.stopPropagation(); // This was giving runTime error
+    window.location.href = url; // Placeholder for navigation to an edit page
   };
 
   return (

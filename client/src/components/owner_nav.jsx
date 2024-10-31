@@ -1,5 +1,6 @@
 import { Navbar, Nav } from 'rsuite';
 import { useNavigate } from 'react-router-dom';
+import { FaUser } from 'react-icons/fa';
 
 const OwnerNavbar = ({ onSelect, activeKey, ...props }) => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const OwnerNavbar = ({ onSelect, activeKey, ...props }) => {
         </Nav.Item>      
       </Nav>
       <Nav pullRight>
-        <Nav.Item onClick={handleProfileClick}>Profile</Nav.Item>
+        <Nav.Item icon={<FaUser />}onClick={handleProfileClick}>Profile</Nav.Item>
       </Nav>
     </Navbar>
   );
