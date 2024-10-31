@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Container, Header, Content, Button, Navbar, Panel, Stack,Footer,Modal,ButtonToolbar} from 'rsuite';
 import RemindIcon from '@rsuite/icons/legacy/Remind';
 import 'rsuite/dist/rsuite.min.css'; // Import rsuite CSS
-iimport { stringifyReactNode } from 'rsuite/esm/internals/utils';
+import { stringifyReactNode } from 'rsuite/esm/internals/utils';
 import CustomFooter from '../components/footer';
 
 

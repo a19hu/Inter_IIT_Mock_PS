@@ -12,9 +12,6 @@ import {
 import { FaGithub, FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 import CustomFooter from '../components/footer';
 
-const CLIENT_ID = "Ov23liM0IKevXYNvjh2J"
-
-
 const CLIENT_ID = "Ov23liM0IKevXYNvjh2J";
 
 function loginWithGithub() {
@@ -94,7 +91,7 @@ async function getUserData() {
       </Header> */}
       <Content>
         <Stack alignItems="center" justifyContent="center" style={{ height: '100%' }}>
-// <<<<<<< feature-branch-name ,satyam
+{/* // <<<<<<< feature-branch-name ,satyam
 //           <Panel header="Sign in" bordered style={{ width: 400 }}>
 //             {
 //               localStorage.getItem("accessToken") ? 
@@ -123,7 +120,7 @@ async function getUserData() {
 //                   </Button>
 //                 </>
 //             }
-//           </Panel>
+//           </Panel> */}
 
         <Panel 
   header={<h2 style={{ display:"flex",justifyContent:"center",textAlign: 'center', fontSize: '1.8em', color: '#333' }}>Sign in</h2>} 

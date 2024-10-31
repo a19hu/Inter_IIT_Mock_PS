@@ -7,13 +7,13 @@ import CustomFooter from '../components/footer';
 
 
 
-const Dashboard = ({ walletAddress }) => {
 
-  const [account, setAccount] = useState(null);
 
-// const Dashboard = () => {
-//   const walletAddress = window.ethereum.selectedAddress || "0xYourWalletAddress"; // Replace with dynamic wallet address from MetaMask
-
+// const Dashboard = ({ walletAddress }) => {
+  const Dashboard = () => {
+    const walletAddress = window.ethereum.selectedAddress || "0xYourWalletAddress"; // Replace with dynamic wallet address from MetaMask
+    
+    const [account, setAccount] = useState(null);
 
 //when i click on wallet address it gets copied to clipboard
   const copyToClipboard = () => {
@@ -65,7 +65,7 @@ const Dashboard = ({ walletAddress }) => {
       </Header>
 
       {/* Main Content Section */}
-// satyam-
+{/* // satyam-
 //       <Content style={{ padding: '50px 20px', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '70vh' }}>
 //         <Stack alignItems="center" justifyContent="center" spacing={20}>
 //           <Panel bordered style={{ width: 300, textAlign: 'center', boxShadow: '0 4px 8px rgba(0,0,0,0.2)' }}>
@@ -74,7 +74,7 @@ const Dashboard = ({ walletAddress }) => {
 //             </Button>
 //           </Panel>
 //           <Panel bordered style={{ width: 300, textAlign: 'center', boxShadow: '0 4px 8px rgba(0,0,0,0.2)' }}>
-//             <Button appearance="primary" size="lg" onClick={goToFreelancerPage} block>
+//             <Button appearance="primary" size="lg" onClick={goToFreelancerPage} block> */}
 
       <Content style={{ padding: '50px 20px', backgroundColor: '#f5f5f5' }}>
         <Stack alignItems="center" justifyContent="center" spacing={20} style={{ height: '60vh' }}>
