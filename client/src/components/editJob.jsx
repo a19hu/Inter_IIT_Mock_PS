@@ -42,8 +42,8 @@ const EditJob = ({ onSubmit }) => {
     <div>
     <OwnerNavbar appearance='inverse'/>
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <div style={{ width: '400px', padding: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)', borderRadius: '8px', backgroundColor: '#fff' }}>
-        <h2 style={{ textAlign: 'center' }}>Edit Your Project</h2>
+      <div style={{paddingLeft:'60px', width: '400px', padding: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)', borderRadius: '8px', backgroundColor: '#fff', color: 'black' }}>
+        <h2 style={{ textAlign: 'center', padding:'20px' }}>Edit Your Project</h2>
         <Form layout="vertical">
           <Form.Group controlId="name-6">
             <Form.ControlLabel>Project Title</Form.ControlLabel>
