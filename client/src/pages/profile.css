@@ -2,7 +2,10 @@
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
+    background-color: #bae2d6; /* Light background for contrast */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 .profile-header {
@@ -16,15 +19,20 @@
     height: 150px;
     border-radius: 50%;
     margin-right: 20px;
+    border: 3px solid #007bff; /* Blue border for the profile picture */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow for depth */
 }
 
 .profile-info h1 {
     margin: 0;
     font-size: 28px;
+    color: #333; /* Darker text for better contrast */
+    font-family: 'Georgia', serif; /* Elegant font for heading */
 }
 
 .profile-info p {
     margin: 5px 0;
+    color: #555; /* Softer text color */
 }
 
 .skills-section, .projects-section {
@@ -37,22 +45,37 @@
 }
 
 .skills-section ul li, .projects-section ul li {
-    background-color: #f0f0f0;
-    padding: 10px;
+    background-color: #fafafa; /* Lighter background for skills/projects */
+    padding: 12px;
     margin-bottom: 10px;
-    border-radius: 5px;
+    border-radius: 8px; /* Increased border-radius */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+}
+
+.skills-section ul li:hover, .projects-section ul li:hover {
+    background-color: #e9da0a; /* Light blue on hover */
+    transform: scale(1.02); /* Slightly enlarge on hover */
 }
 
 .skills-section ul li {
     display: inline-block;
     margin-right: 10px;
+    padding: 8px 12px; /* Added padding for skills */
+    background-color: #53c910; /* Background color for skills */
+    border-radius: 5px; /* Rounded corners for skills */
 }
 
 .projects-section ul li a {
     text-decoration: none;
-    color: #007bff;
+    color: #0665ca; /* Primary blue color for links */
+    font-weight: bold; /* Bold links */
 }
 
 .projects-section ul li a:hover {
     text-decoration: underline;
+    color: #1adf44; /* Darker blue on hover */
+}
+
+.projects-section ul li {
+    margin-bottom: 15px; /* Increased spacing between project links */
 }
