@@ -40,16 +40,10 @@ const Freelancer2 = () => {
     <div>
       <OwnerNavbar appearance="inverse" activeKey={activeKey} onSelect={setActiveKey} />
       <div style={containerStyle}>
-        {/* Left side: display one set of filtered jobs */}
+        
         <div style={sideStyle}>
           <div style={headerStyle}>Projects Uploaded by Owner</div>
           <FilteredJobsButtons /> {/* This will show jobs filtered by owner */}
-        </div>
-
-        {/* Right side: display another set of filtered jobs */}
-        <div style={sideStyle}>
-          <div style={headerStyle}>Other Available Projects</div>
-          <FilteredJobsButtons /> {/* Modify as needed to show different projects */}
         </div>
       </div>
     </div>

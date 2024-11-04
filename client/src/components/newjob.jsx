@@ -28,7 +28,7 @@ const Newjob = () => {
   };
 
   return (
-    <div>
+    <div style={{color:'black'}}>
       <h2 style={{ paddingTop: '30px', paddingLeft: '90px' }}>Hello! Create A New Project:</h2>
       <Form layout="horizontal" style={{ paddingTop: '40px' }}>
         <Form.Group controlId="name-6">
