@@ -14,7 +14,7 @@ const projectSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    deadline: { 
+    deadline: { // problem
         type: Date,
         required: true
     },
@@ -47,9 +47,8 @@ const projectSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-// This will automatically add `createdAt` and `updatedAt` fields
 projectSchema.pre('save', function (next) {
-    this.updatedAt = Date.now(); // Optional, but if you're using timestamps, this is handled automatically.
+    this.updatedAt = Date.now();
     next();
 });
 

@@ -44,7 +44,10 @@ export const callback = async (req, res) => {
         } else {
             // If user doesn't exist, store GitHub user data in session and redirect to enter-wallet
             req.session.githubUser = {
-                githubId: userData.login // login is github username
+                githubId: userData.id,
+                username: userData.login,
+                email: userData.email || `${userData.login}@users.noreply.github.com`,
+                avatarUrl: userData.avatar_url,
             };
             req.session.accessToken = accessToken; // Store access token for later use
             return res.redirect('/auth/enter-wallet');
@@ -75,10 +78,9 @@ export const renderWalletPage = (req, res) => {
         return res.redirect('/'); // Redirect to home if no GitHub data found
     }
 
-    // Redirect to the React frontend wallet page
-    res.redirect('http://localhost:3000/metamask'); // Redirect to the React route
+    // Serve the wallet entry page
+    res.sendFile(path.join(__dirname, '/src/views/enter-wallet.html')); // Adjust path as per your structure
 };
-
 
 export const addWallet = async (req, res) => {
     // console.log(req.body);
@@ -94,6 +96,9 @@ export const addWallet = async (req, res) => {
         // Create a new user in the database
         const user = new User({
             githubId: githubUser.githubId,
+            username: githubUser.username,
+            email: githubUser.email,
+            avatarUrl: githubUser.avatarUrl,
             walletAddress: walletAddress,
         });
 

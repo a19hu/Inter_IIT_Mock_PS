@@ -5,13 +5,12 @@ import {
   Button,
   Panel,
   Stack,
-  Input, // Added for wallet address input
 } from 'rsuite';
 import { FaGithub } from 'react-icons/fa';
 import CustomFooter from '../components/footer';
 import './Login.css'; // Import the CSS file
 
-const CLIENT_ID = "Ov23liE1zIOAbQnLZWFA";
+const CLIENT_ID = "Ov23liM0IKevXYNvjh2J";
 
 function loginWithGithub() {
   const scope = "user:email"; // Specify the scopes
@@ -21,25 +20,20 @@ function loginWithGithub() {
 const Login = () => {
   const [renderer, setRenderer] = useState(false);
   const [userData, setUserData] = useState({});
-  const [walletAddress, setWalletAddress] = useState(''); // State for wallet address
 
   async function getUserData() {
-    await fetch('http://localhost:5000/auth/safe', { // Updated to match the new secure route
+    await fetch('http://localhost:4000/getUserData', {
       method: 'GET',
       headers: {
         "Authorization": "Bearer " + localStorage.getItem("accessToken")
       }
     }).then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
       return response.json();
     }).then(async (data) => {
-      console.log("User data retrieved:", JSON.stringify(data, null, 2));
+      console.log("User data retrieved:", JSON.stringify(data, null, 2)); // Log user data as JSON
       setUserData(data);
+      // Store user data in localStorage
       localStorage.setItem("userData", JSON.stringify(data));
-    }).catch(error => {
-      console.error('Error fetching user data:', error);
     });
   }
 
@@ -65,44 +59,22 @@ const Login = () => {
     }
   }, []);
 
+  // Log userData when it changes
   useEffect(() => {
     if (Object.keys(userData).length > 0) {
       console.log("User Data:", JSON.stringify(userData, null, 2));
     }
   }, [userData]);
 
-  const submitWalletAddress = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/auth/add-wallet', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem("accessToken"),
-        },
-        body: JSON.stringify({ walletAddress }),
-      });
-
-      if (response.ok) {
-        const message = await response.text();
-        alert(message); // Display success message
-      } else {
-        const errorMessage = await response.text();
-        alert(errorMessage); // Display error message
-      }
-    } catch (error) {
-      console.error('Error submitting wallet address:', error);
-      alert('An error occurred while saving the wallet address.');
-    }
-  };
-
   return (
     <Container style={{ height: '100vh' }}>
       <Content>
         <Stack alignItems="center" justifyContent="center" style={{ height: '100%' }}>
+          {/* Welcome message */}
           <h2 
             style={{
               fontSize: '2em',
-              color: '#ff5722',
+              color: '#ff5722', // Initial text color
               animation: 'colorChange 3s infinite',
               transform: 'scale(1)',
               transition: 'transform 0.5s ease',
@@ -113,6 +85,7 @@ const Login = () => {
             Welcome Coder, Here you go!
           </h2>
           
+          {/* Sign in panel */}
           <Panel 
             header={<h2 style={{ display: "flex", justifyContent: "center", textAlign: 'center', fontSize: '1.8em', color: '#333' }}>Sign in</h2>} 
             bordered 
@@ -196,30 +169,6 @@ const Login = () => {
                     </a>
                   </>
                 )}
-
-                {/* New section to enter wallet address */}
-                <h3 style={{ marginTop: '20px' }}>Enter Your Wallet Address:</h3>
-                <Input
-                  value={walletAddress}
-                  onChange={(value) => setWalletAddress(value)}
-                  placeholder="Wallet Address"
-                  style={{ marginBottom: '15px', width: '100%' }}
-                />
-                <Button 
-                  onClick={submitWalletAddress} 
-                  style={{
-                    backgroundColor: '#4CAF50',
-                    color: '#fff',
-                    marginTop: '15px',
-                    padding: '12px 18px',
-                    fontSize: '1.1em',
-                    borderRadius: '6px',
-                    border: 'none',
-                    cursor: 'pointer',
-                  }}
-                >
-                  Save Wallet Address
-                </Button>
               </>
               :
               <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -252,7 +201,7 @@ const Login = () => {
           </Panel>
         </Stack>
       </Content>
-      <CustomFooter />
+      <CustomFooter/>
     </Container>
   );
 };

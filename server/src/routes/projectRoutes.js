@@ -1,30 +1,20 @@
-// routes/projectRoutes.js
 import express from 'express';
-import {
-    getAllProjects,
-    getProjectById,
-    createNewProject,
-    apply,
-    removeApplication,
-    submitPR,
-    getStatus,
-    startProject,
-} from '../controllers/projectController.js';
-import { getLoggedInUser } from '../middlewares/authMiddleware.js';
+import { getAllProjects, getProjectById, createNewProject, apply, removeApplication, submitPR, getStatus, startProject } from '../controllers/projectController.js';
 
 const router = express.Router();
 
-// Apply the `getLoggedInUser` middleware where logged-in user access is needed
+// use() auth middleware
+
 router.get(`/`, getAllProjects);
-router.get(`/:projectid`, getLoggedInUser, getProjectById);
-router.post(`/`, getLoggedInUser, createNewProject);
+router.get(`/:projectid`, getProjectById);
+router.post(`/`, createNewProject);
 
-// Utility routes with logged-in user check
-router.get(`/:projectid/apply`, getLoggedInUser, apply);
-router.get(`/:projectid/remove/:freelancerid`, getLoggedInUser, removeApplication);
-router.post(`/:projectid/submitPR`, getLoggedInUser, submitPR);
-router.get(`/:projectid/status`, getStatus);
+// utility routes (delete etc)
+router.get(`/:projectid/apply`, apply);
+router.get(`/:projectid/remove/:freelancerid`, removeApplication);
+router.post(`/:projectid/submitPR`, submitPR);
+router.get(`/:projectid/status`, getStatus);  // route for webhook stuff
 
-router.get(`/:projectid/start`, getLoggedInUser, startProject);
+router.get(`/:projectid/start`, startProject) // only owner. deploy sc
 
 export default router;

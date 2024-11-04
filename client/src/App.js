@@ -31,16 +31,15 @@ const App = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/owner" element={<Owner /> } />
         {/* <Route path="/owner" element={<Owner />} /> */}
-        {/* <Route pa th="/freelancer" element={<ExistingJob />} /> */}
-        <Route path="/existingjob" element={<ExistingJobs />} />
+        <Route path="/freelancer" element={<ExistingJob />} />
+        <Route path="/" element={<ExistingJobs />} />
         {/* <Route path="/freelancer" element={<Freelancer2 />} /> */}
         {/* <Route path="/" element={<ExistingJobs />} /> */}
-        {/* <Route path="/job/:jobId" element={<JobDetails />} /> */}
+        <Route path="/job/:jobId" element={<JobDetails />} />
         <Route path="/owner_projects" element={<Owner_projects />} />
-        {/* <Route path="/project_description" element  ={<JobDetails/>} /> */}
-        <Route path="/project/:jobId" element={<JobDetails />} />
+        <Route path="/project_description" element={<JobDetails/>} />
         <Route path="/profile" element={<Profile />} />
-        
+        <Route path="/existingjob" element={<ExistingJob />} />
         <Route path="/edit_job" element={<EditJob />} />
 
 

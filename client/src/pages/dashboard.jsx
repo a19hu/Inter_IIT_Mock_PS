@@ -41,7 +41,7 @@ import CustomFooter from '../components/footer';
     window.location.href = '/owner_projects';
   };
   const goToFreelancerPage = () => {
-    window.location.href = '/existingjob';
+    window.location.href = '/freelancer';
   };
   const goToProfilePage = () => {
     window.location.href = '/profile';

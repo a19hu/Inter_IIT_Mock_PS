@@ -22,17 +22,22 @@ router.get('/safe', async (req, res) => {
     }
 
     // Find the user by ID
-    const user = await User.findById(req.session.userId); // cookies
+    const user = await User.findById(req.session.userId);
 
     if (!user) {
         return res.status(404).send('User not found.');
     }
 
     // Render a message with the user's username
-    res.send(`Hey, you are ${user.githubId}! and your cookie is ${req.session.accessToken}`); // Display a simple message
+    res.send(`Hey, you are ${user.username}!`); // Display a simple message
 });
 
 // route to add wallet address
 router.post('/add-wallet', addWallet);
 
 export default router;
+
+/**
+ * axios.get('/backend/auth/logout')
+ * 
+ */

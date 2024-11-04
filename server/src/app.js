@@ -8,6 +8,7 @@ import "dotenv/config"
 // import routes
 import authRoutes from './routes/authRoutes.js'
 import projectRoutes from './routes/projectRoutes.js'
+import contributionRoutes from './routes/contributionRoutes.js'
 
 const app = express()
 
@@ -19,23 +20,20 @@ app.use(session({
     cookie: { secure: false } // true if HTTPS
 }));
 
-// CORS configuration
-app.use(cors({
-    origin: 'http://localhost:3000', // Use the exact origin here
-    credentials: true, // Allow cookies to be sent
-}));
-
-
+app.use(
+    cors({
+        origin: process.env.CORS_ORIGIN,
+        credentials: true,
+    })
+)
 
 app.use(bodyParser())
 
 app.use(cookieParser())
-app.use(express.json({ limit: '16kb' }));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
 
 // define (mount) routes
 app.use('/auth', authRoutes);
 app.use('/project', projectRoutes);
+app.use('/contribution', contributionRoutes);
 
 export { app }
