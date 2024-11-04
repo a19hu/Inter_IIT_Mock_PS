@@ -1,78 +1,82 @@
 import React, { useState } from 'react';
 import { Form, ButtonToolbar, Button, Input } from 'rsuite';
-
+import axios from 'axios';
 
 const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
 const Newjob = () => {
   // State to store form data
   const [formData, setFormData] = useState({
-    title: '',
-    email: '',
-    amount: '',
-    link: '',
-    description: ''
+    issueId: '',
+    name: '',
+    description: '',
+    deadline: null, // Deadline will be a date
+    applicationDate: null, // Application date will also be a date
+    amountInWei: '', // Start with an empty string
+    prURLs: '',
   });
 
   // Handle input change
   const handleChange = (value, name) => {
+    console.log(`Field Changed: ${name} = ${value}`);
+    
+    // If amountInWei is being updated, parse the value to a number
+    if (name === 'amountInWei') {
+      value = Number(value) || 0; // Convert to number; default to 0 if NaN
+    }
+    
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  // Handle form submission
-  const handleSubmit = () => {
-    console.log('Submitted:', JSON.stringify(formData, null, 2)); // Log the form data as JSON
+  const handleSubmit = async () => {
+    const dataToSubmit = {
+      ...formData,
+      applicationDate: formData.applicationDate ? new Date(formData.applicationDate).toISOString() : null,
+      deadline: formData.deadline ? new Date(formData.deadline).toISOString() : null,
+      prURLs: formData.prURLs ? formData.prURLs.split(',').map(url => url.trim()) : [], // Convert to array
+    };
+  
+    console.log(dataToSubmit); // Debugging: Check if amountInWei is a number
+  
+    try {
+      const response = await axios.post('http://localhost:5001/project/', dataToSubmit, {
+        withCredentials: true,
+      });
+      console.log('Response:', response.data);
+    } catch (error) {
+      console.error('Error submitting the form:', error);
+    }
   };
+  
 
   return (
-    <div style={{color:'black'}}>
+    <div style={{ color: 'black' }}>
       <h2 style={{ paddingTop: '30px', paddingLeft: '90px' }}>Hello! Create A New Project:</h2>
       <Form layout="horizontal" style={{ paddingTop: '40px' }}>
+        <Form.Group controlId="issueId-6">
+          <Form.ControlLabel>Issue ID</Form.ControlLabel>
+          <Form.Control 
+            name="issueId" 
+            type="text" 
+            onChange={(value) => handleChange(value, 'issueId')} 
+          />
+          <Form.HelpText tooltip>Required</Form.HelpText>
+        </Form.Group>
+
         <Form.Group controlId="name-6">
           <Form.ControlLabel>Project Title</Form.ControlLabel>
           <Form.Control 
-            name="title" 
+            name="name" 
             type="text" 
-            onChange={(value) => handleChange(value, 'title')} 
+            onChange={(value) => handleChange(value, 'name')} 
           />
           <Form.HelpText tooltip>Required</Form.HelpText>
         </Form.Group>
 
-        <Form.Group controlId="email-6">
-          <Form.ControlLabel>Email ID</Form.ControlLabel>
-          <Form.Control 
-            name="email" 
-            type="email" 
-            onChange={(value) => handleChange(value, 'email')} 
-          />
-          <Form.HelpText tooltip>Required</Form.HelpText>
-        </Form.Group>
-
-        <Form.Group controlId="password-6">
-          <Form.ControlLabel>Enter Amount</Form.ControlLabel>
-          <Form.Control 
-            name="amount" 
-            type="number" 
-            autoComplete="off" 
-            onChange={(value) => handleChange(value, 'amount')} 
-          />
-          <Form.HelpText tooltip>Required</Form.HelpText>
-        </Form.Group>
-
-        <Form.Group controlId="link-6">
-          <Form.ControlLabel>Github Link</Form.ControlLabel>
-          <Form.Control 
-            name="link" 
-            type="text" 
-            onChange={(value) => handleChange(value, 'link')} 
-          />
-          <Form.HelpText tooltip>Required</Form.HelpText>
-        </Form.Group>
-
-        <Form.Group controlId="textarea-6">
+        <Form.Group controlId="description-6">
           <Form.ControlLabel>Job Description</Form.ControlLabel>
           <Form.Control 
             name="description" 
@@ -80,6 +84,48 @@ const Newjob = () => {
             accepter={Textarea} 
             onChange={(value) => handleChange(value, 'description')} 
           />
+        </Form.Group>
+
+        <Form.Group controlId="applicationDate-6">
+          <Form.ControlLabel>Application Date</Form.ControlLabel>
+          <Form.Control 
+            name="applicationDate" 
+            type="date" 
+            onChange={(value) => handleChange(value, 'applicationDate')} 
+          />
+          <Form.HelpText tooltip>Required</Form.HelpText>
+        </Form.Group>
+
+        <Form.Group controlId="deadline-6">
+          <Form.ControlLabel>Deadline</Form.ControlLabel>
+          <Form.Control 
+            name="deadline" 
+            type="date" 
+            onChange={(value) => handleChange(value, 'deadline')} 
+          />
+          <Form.HelpText tooltip>Required</Form.HelpText>
+        </Form.Group>
+
+        <Form.Group controlId="amountInWei-6">
+          <Form.ControlLabel>Amount In Wei</Form.ControlLabel>
+          <Form.Control
+            name="amountInWei"
+            type="number"
+            onChange={(value) => handleChange(value, 'amountInWei')}
+            value={formData.amountInWei} // Make sure the input reflects the state
+          />
+          <Form.HelpText tooltip>Required</Form.HelpText>
+        </Form.Group>
+
+
+        <Form.Group controlId="prURLs-6">
+          <Form.ControlLabel>PR URLs</Form.ControlLabel>
+          <Form.Control 
+            name="prURLs" 
+            type="text" 
+            onChange={(value) => handleChange(value, 'prURLs')} 
+          />
+          <Form.HelpText tooltip>Comma-separated list of PR URLs (if any)</Form.HelpText>
         </Form.Group>
 
         <Form.Group>

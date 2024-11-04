@@ -1,10 +1,22 @@
 import Web3 from 'web3';
-import { CONTRACT_BYTECODE, CONTRACT_ABI } from '../contracts/escrowContractABI.json'; // Ensure ABI is imported for contract interaction
+import CONTRACT_ABI_JSON from '../contracts/escrowContractABI.json' with { type: "json" }; // Ensure ABI is imported for contract interaction
+import CONTRACT_BYTECODE_JSON from '../contracts/escrowContractBYTECODE.json' with { type: "json" };
 import Project from '../models/projectModel.js';
 import User from '../models/userModel.js';
 import "dotenv/config"
 
-const web3 = new Web3(new Web3.providers.HttpProvider(process.env.INFURA_URL));
+const CONTRACT_ABI = CONTRACT_ABI_JSON.abi
+const CONTRACT_BYTECODE = CONTRACT_BYTECODE_JSON.bytecode
+
+const web3 = new Web3(new Web3.providers.HttpProvider(`https://sepolia.infura.io/v3/${process.env.INFURA_PROJECT_ID}`, {
+    headers: [
+        {
+            name: 'Authorization',
+            value: `Basic ${Buffer.from(`${process.env.INFURA_PROJECT_ID}:${process.env.INFURA_SECRET_KEY}`).toString('base64')}`
+        }
+    ]
+}));// metamask here? 
+//`https://ethereum.stackexchange.com/questions/67145/how-to-connect-web3-with-metamask`
 
 // Function to deploy the Escrow contract
 export const deploySmartContract = async (projectid) => {
@@ -71,14 +83,23 @@ export const triggerSmartContract = async (projectId, freelancerGithubName) => {
         // Step 3: Create a contract instance and call releaseFunds
         const contract = new web3.eth.Contract(CONTRACT_BYTECODE, contractAddress);
 
-        // Assume that the account performing the transaction is unlocked or is using MetaMask or similar for transaction signing
-        const accounts = await web3.eth.getAccounts(); // Replace with appropriate signing account or method
-        const fromAccount = accounts[0]; // Assuming the first account is used
+        // Encode the transaction data to call releaseFunds with the specified wallet address
+        const txData = contract.methods.releaseFunds(walletAddress).encodeABI();
 
-        // Call releaseFunds on the contract, passing the wallet address as the payee
-        const tx = await contract.methods.releaseFunds(walletAddress).send({ from: fromAccount });
+        // Step 4: Define the transaction parameters
+        const txParams = {
+            to: contractAddress,
+            data: txData,
+            gas: await contract.methods.releaseFunds(walletAddress).estimateGas(), // Estimate gas required
+            chainId: await web3.eth.getChainId(),
+        };
 
-        console.log(`Funds released to ${walletAddress} for project ID ${projectId}. Transaction hash: ${tx.transactionHash}`);
+        // Step 5: Sign the transaction with the private key from .env
+        const signedTx = await web3.eth.accounts.signTransaction(txParams, `0x${process.env.WALLET_PRIVATE_KEY}`);
+
+        // Step 6: Send the signed transaction to the network
+        const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+        console.log(`Funds released to ${walletAddress} for project ID ${projectId}. Transaction hash: ${receipt.transactionHash}`);
     } catch (error) {
         console.error(`Error triggering smart contract for project ID ${projectId}:`, error);
     }

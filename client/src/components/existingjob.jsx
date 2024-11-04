@@ -1,15 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import FreelancerNavbar from '../components/FreelancerNavbar'; // Adjust path if necessary
+import axios from 'axios';
 
 const ExistingJobs = () => {
-  const jobs = [
-    { id: 1, title: '1.) Software Engineer', description: 'Responsible for developing and maintaining software applications.' },
-    { id: 2, title: '2.) Data Analyst', description: 'Analyzes data to provide business insights and support decision-making.' },
-    { id: 3, title: '3.) Product Manager', description: 'Oversees the development and launch of new products.' },
-    { id: 4, title: '4.) UX Designer', description: 'Designs user interfaces and improves user experience on digital platforms.' },
-    { id: 5, title: '5.) Marketing Specialist', description: 'Plans and executes marketing strategies to promote products.' }
-  ];
+  const [jobs, setJobs] = useState([]); // State to hold the jobs
+  const [loading, setLoading] = useState(true); // State to handle loading state
+  const [error, setError] = useState(null); // State to handle errors
+
+  // Fetch jobs from the API
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await axios.get('http://localhost:5001/api/projects'); // Adjust the URL as needed
+        setJobs(response.data); // Assuming response.data is an array of job objects
+      } catch (err) {
+        setError('Error fetching jobs'); // Set error message if there's an error
+      } finally {
+        setLoading(false); // Set loading to false regardless of success or error
+      }
+    };
+
+    fetchJobs();
+  }, []); // Empty dependency array means this runs once when the component mounts
+
+  if (loading) {
+    return <div>Loading jobs...</div>; // Show loading message while fetching
+  }
+
+  if (error) {
+    return <div>{error}</div>; // Show error message if any
+  }
 
   return (
     <div>
@@ -19,11 +40,11 @@ const ExistingJobs = () => {
         <div style={styles.jobList}>
           {jobs.map((job) => (
             <Link
-              key={job.id}
-              to={`/job/${job.id}`}
+              key={job._id} // Assuming each job has a unique `_id` from the database
+              to={`/job/${job._id}`} // Use the job's ID for the link
               style={styles.jobButton}
             >
-              {job.title}
+              {job.name} {/* Assuming each job has a `name` field */}
             </Link>
           ))}
         </div>
@@ -67,10 +88,6 @@ const styles = {
     fontWeight: '500',
     transition: 'transform 0.2s, background-color 0.2s',
     boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-  },
-  jobButtonHover: {
-    transform: 'scale(1.05)',
-    backgroundColor: '#e0e0e0', // Light gray for hover effect
   },
 };
 
