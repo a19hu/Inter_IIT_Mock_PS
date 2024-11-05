@@ -19,12 +19,13 @@ app.use(session({
     cookie: { secure: false } // true if HTTPS
 }));
 
-app.use(
-    cors({
-        origin: process.env.CORS_ORIGIN,
-        credentials: true,
-    })
-)
+// CORS configuration
+app.use(cors({
+    origin: 'http://localhost:3000', // Use the exact origin here
+    credentials: true, // Allow cookies to be sent
+}));
+
+
 
 app.use(bodyParser())
 

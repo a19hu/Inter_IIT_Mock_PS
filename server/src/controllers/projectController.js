@@ -32,6 +32,9 @@ export const createNewProject = async (req, res) => {
     const { issueId, name, description, deadline, applicationDate, amount } = req.body;
     // const owner = req.session.userId;  // Assuming req.session.userId is the logged-in user [check]
     const owner = req.user;
+    const { issueId, name, description, deadline, applicationDate, amountInWei } = req.body;
+    // const owner = req.session.userId;  // Assuming req.session.userId is the logged-in user [check]
+    const owner = req.user;
 
     try {
         const newProject = new Project({
@@ -40,16 +43,17 @@ export const createNewProject = async (req, res) => {
             description,
             deadline,
             applicationDate,
-            owner,  // Store the owner as the current logged-in user
+            owner: req.user._id,  // Store the owner as the current logged-in user
             freelancers: [],
             prURLs: [],
-            amountInWei: amount,
+            amountInWei,
             status: 'not_started',
         });
 
         await newProject.save();
         res.status(201).json({ message: 'Project created successfully.', project: newProject });
     } catch (error) {
+        console.log(error);
         console.log(error);
         res.status(500).json({ message: 'Error creating project.' });
     }
@@ -59,10 +63,13 @@ export const createNewProject = async (req, res) => {
 export const apply = async (req, res) => {
     const { projectid } = req.params;
     const freelancerId = req.user._id;
+    const freelancerId = req.user._id;
 
     try {
         const project = await Project.findById(projectid);
         if (!project) return res.status(404).json({ message: 'Project not found.' });
+
+        console.log(`freelancer = ${freelancerId}`)
 
         console.log(`freelancer = ${freelancerId}`)
 
@@ -122,6 +129,7 @@ export const submitPR = async (req, res) => {
     const { projectid } = req.params;
     const { prURL } = req.body;
     const freelancerId = req.user._id;
+    const freelancerId = req.user._id;
 
     try {
         const project = await Project.findById(projectid);
@@ -145,6 +153,7 @@ export const submitPR = async (req, res) => {
 export const startProject = async (req, res) => {
     const { projectid } = req.params;
     const ownerId = req.user._id; // check
+    const ownerId = req.user._id; // check
 
     try {
         const project = await Project.findById(projectid);
@@ -164,6 +173,7 @@ export const startProject = async (req, res) => {
         // Update project status to "started"
         project.status = 'unresolved';
 
+        const smartContractAddress = deploySmartContract(projectid); // id of smart contract
         const smartContractAddress = deploySmartContract(projectid); // id of smart contract
         project.smartContractAddress = smartContractAddress;
         await project.save();

@@ -1,0 +1,90 @@
+/* Login.css */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #5D3FD3; /* Main background color */
+    color: #fff;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes colorChange {
+    0% {
+      color: #ff5722;
+    }
+    50% {
+      color: #2196f3;
+    }
+    100% {
+      color: #ff5722;
+    }
+  }
+  
+
+.tagline {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2.5em; /* Increased font size for emphasis */
+    color: #fff; /* White color for the tagline */
+    animation: fadeIn 2s ease-in-out; /* Animation effect */
+    position: absolute; /* Positioning to move it outside the panel */
+    top: 10%; /* Adjust as needed */
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; /* Center the button */
+}
+
+.panel-header {
+    color: #4CAF50; /* Green color for the panel header */
+    text-align: center;
+}
+
+/* Increased border size and added animation */
+.panel {
+    border: 5px solid #4CAF50; /* Increased border size */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    animation: scaleUp 0.5s ease-in-out; /* Scale animation */
+}
+
+.button {
+    background-color: #4CAF50; /* Primary button color */
+    color: #fff; /* White text for the button */
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #45a049; /* Darker shade on hover */
+}
+
+/* Animation for tagline */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation for panel border */
+@keyframes scaleUp {
+    from {
+        transform: scale(0.8); /* Start smaller */
+        opacity: 0; /* Start invisible */
+    }
+    to {
+        transform: scale(1); /* Scale to original size */
+        opacity: 1; /* Fade in */
+    }
+}

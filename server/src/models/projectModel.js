@@ -47,8 +47,9 @@ const projectSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
+// This will automatically add `createdAt` and `updatedAt` fields
 projectSchema.pre('save', function (next) {
-    this.updatedAt = Date.now();
+    this.updatedAt = Date.now(); // Optional, but if you're using timestamps, this is handled automatically.
     next();
 });
 

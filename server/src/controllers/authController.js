@@ -75,9 +75,10 @@ export const renderWalletPage = (req, res) => {
         return res.redirect('/'); // Redirect to home if no GitHub data found
     }
 
-    // Serve the wallet entry page
-    res.sendFile(path.join(__dirname, '/src/views/enter-wallet.html')); // Adjust path as per your structure
+    // Redirect to the React frontend wallet page
+    res.redirect('http://localhost:3000/metamask'); // Redirect to the React route
 };
+
 
 export const addWallet = async (req, res) => {
     // console.log(req.body);
