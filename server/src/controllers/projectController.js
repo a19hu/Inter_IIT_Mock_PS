@@ -51,6 +51,7 @@ export const createNewProject = async (req, res) => {
         res.status(201).json({ message: 'Project created successfully.', project: newProject });
     } catch (error) {
         console.log(error);
+        console.log(error);
         res.status(500).json({ message: 'Error creating project.' });
     }
 };
@@ -63,6 +64,8 @@ export const apply = async (req, res) => {
     try {
         const project = await Project.findById(projectid);
         if (!project) return res.status(404).json({ message: 'Project not found.' });
+
+        console.log(`freelancer = ${freelancerId}`)
 
         console.log(`freelancer = ${freelancerId}`)
 
