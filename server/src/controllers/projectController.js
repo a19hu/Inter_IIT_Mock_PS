@@ -29,9 +29,6 @@ export const getProjectById = async (req, res) => {
 
 // Create new project
 export const createNewProject = async (req, res) => {
-    const { issueId, name, description, deadline, applicationDate, amount } = req.body;
-    // const owner = req.session.userId;  // Assuming req.session.userId is the logged-in user [check]
-    const owner = req.user;
     const { issueId, name, description, deadline, applicationDate, amountInWei } = req.body;
     // const owner = req.session.userId;  // Assuming req.session.userId is the logged-in user [check]
     const owner = req.user;
@@ -62,7 +59,6 @@ export const createNewProject = async (req, res) => {
 // Apply to a project (add freelancer)
 export const apply = async (req, res) => {
     const { projectid } = req.params;
-    const freelancerId = req.user._id;
     const freelancerId = req.user._id;
 
     try {
@@ -129,7 +125,6 @@ export const submitPR = async (req, res) => {
     const { projectid } = req.params;
     const { prURL } = req.body;
     const freelancerId = req.user._id;
-    const freelancerId = req.user._id;
 
     try {
         const project = await Project.findById(projectid);
@@ -153,7 +148,6 @@ export const submitPR = async (req, res) => {
 export const startProject = async (req, res) => {
     const { projectid } = req.params;
     const ownerId = req.user._id; // check
-    const ownerId = req.user._id; // check
 
     try {
         const project = await Project.findById(projectid);
@@ -173,7 +167,6 @@ export const startProject = async (req, res) => {
         // Update project status to "started"
         project.status = 'unresolved';
 
-        const smartContractAddress = deploySmartContract(projectid); // id of smart contract
         const smartContractAddress = deploySmartContract(projectid); // id of smart contract
         project.smartContractAddress = smartContractAddress;
         await project.save();
